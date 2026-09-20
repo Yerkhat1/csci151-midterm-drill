@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Midterm One Drill</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <style>
@@ -82,6 +84,8 @@
   .hsub{font-size:13.5px;opacity:.92;margin-top:10px;line-height:1.5}
   .tile{transition:transform .14s ease,box-shadow .14s ease}
   .tile:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(37,20,66,.05),0 10px 26px rgba(37,20,66,.09)}
+  .reflink{display:block;text-decoration:none;color:#fff;background:linear-gradient(135deg,#6d28d9,#a855f7);border-radius:14px;padding:16px 18px;box-shadow:0 10px 26px -10px rgba(124,58,237,.55);transition:transform .14s ease}
+  .reflink:hover{transform:translateY(-2px)}
 
   /* ---- generic pieces ---- */
   .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
@@ -1762,9 +1766,145 @@ for (i = 0; i < 3; i++) {
 
 /* ============================= MOCK EXAMS =============================
    Written for this site, modelled on the lesson content and exercises.
-   Not past papers. 60 minutes, closed book, no compiler — same as the real thing.
+   The first entry IS the real Fall 2025 paper; the other two are modelled on the lessons.
    ===================================================================== */
 const EXAMS = [
+{id:"real2025", title:"Midterm 1 — Fall 2025, Section 2", real:true, mins:60,
+ note:"The genuine past paper. It was an online Moodle quiz with an auto-graded code editor — 12 questions, 25 marks, 1 hour. Q12 (write a whole program) alone is worth 10 marks = 40% of the exam.", qs:[
+ {type:"out", L:6, q:"How many iterations are performed by the following for loop?",
+  code:`for (int i = 2685; i > 0; i = i - 2) {
+    printf("%i -> %i\\n", 2686 - i, i);
+}`, ans:"1343",
+  why:"i runs 2685, 2683, …, 3, 1 — down by 2 while still > 0. Count = (2685 − 1)/2 + 1 = 1343. For 'how many iterations', find the first value, the last value that still passes the test, and the step size."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int i = 4000;
+float f = 901.6;
+float result = (float) i + (int) f;
+printf("%f", result);`, ans:"4901",
+  why:"(int)901.6 truncates to 901, plus 4000 = 4901 (the grader accepted 4901; %f would print 4901.000000). The casts apply before the addition."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int i = 2866;
+float f = i / 2;
+printf("%f", f);`, ans:"1433",
+  why:"i / 2 is int ÷ int = 1433 — integer division happens first, THEN the result is stored in a float. Declaring f as float does not rescue it."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 3109;
+int b = a++;
+printf("%i", a + b % 10);`, ans:"3119",
+  why:"b = a++ gives b the OLD value 3109, then a becomes 3110. % binds tighter than +, so a + b % 10 = 3110 + (3109 % 10) = 3110 + 9 = 3119."},
+ {type:"out", L:6, q:"What is the console output of the following fragment?",
+  code:`for (int k = 37; k < 40; k++) {
+    for (int j = k; j > 37; j--) {
+        printf("%i", j);
+    }
+}`, ans:"383938",
+  why:"k=37: inner never runs (37 is not > 37). k=38: prints 38. k=39: prints 39 then 38. No spaces between → 38 3938 → 383938."},
+ {type:"out", L:13, q:"On the real exam this was drag-and-drop. Console input is 5. Type the 9 output numbers in reading order (each row left-to-right).",
+  code:`int a[3][3], i, j, k;
+scanf("%i", &k);            // k = 5
+
+for (i = 1; i < 3; i++)
+    for (j = 1; j < 3; j++)
+        a[i][j] = 1;
+
+for (i = 0; i < 3; i++)
+    for (j = 0; j < 3; j++)
+        if (i - j == 2 || j - i == 2)
+            a[i][j] = k - 2;
+
+for (i = 1; i >= 0; i--)
+    for (j = 1; j >= 0; j--)
+        a[i][j] = k * a[i + 1][j + 1];
+
+a[0][0] = k - a[2][2];
+
+for (i = 0; i < 3; i++) {
+    for (j = 0; j < 3; j++)
+        printf("%i ", a[i][j]);
+    printf("\\n");
+}`, ans:"4 5 3 5 5 1 3 1 1",
+  why:"Final grid:\n4 5 3\n5 5 1\n3 1 1\nWork the four phases in order: fill the lower-right 2×2 with 1; set the anti-diagonal corners to k−2 = 3; overwrite the top-left 2×2 with k × (its down-right neighbour); finally a[0][0] = k − a[2][2]. This 2-D array trace is the hardest of the tracing questions."},
+ {type:"write", L:8, q:"Match each do-while loop to its behaviour (real exam was drag-and-drop):\nA:  int i=0; do { printf(\"%i\",i); i--; } while (i>0);\nB:  int i=1; do { printf(\"%i\",i); continue; i--; } while (i>0);\nC:  int i=2; do { break; printf(\"%i\",i); i--; } while (i>0);\nD:  int i=3; do { printf(\"%i\",i); i--; continue; } while (i>0);\n\nChoices: entered exactly once with output · infinite loop · entered but no output · entered a finite number of times > 1.",
+  sol:`A → entered exactly once, produces output
+     prints 0, i becomes -1, condition false → done.
+
+B → infinite loop
+     continue jumps to the while test BEFORE i--, so i stays 1 forever.
+
+C → entered but produces no output
+     break fires before the printf ever runs.
+
+D → entered a finite number of times greater than one
+     prints 3, 2, 1; the continue sits at the end of the body, so it's harmless.`,
+  why:"The whole question is the behaviour of continue in a do-while: it jumps straight to the condition. In B that skips the decrement (infinite); in D it changes nothing. break in C exits before printing."},
+ {type:"out", L:10, q:"The user types  He is 89 years old!  then a newline. What does this print?",
+  code:`char c;
+int s = 0;
+
+do {
+    c = getchar();
+    if (c >= 'a' && c <= 'z') {
+        s++;
+    } else if (c >= '0' && c <= '9') {
+        s += c - '0';
+    } else {
+        s--;
+    }
+} while (c != '\\n');
+
+printf("%i", s);`, ans:"21",
+  why:"Per character: a lowercase letter adds 1; a digit adds its VALUE (c − '0'); anything else (uppercase, space, '!', newline) subtracts 1. The digits 8 and 9 add 17 on their own. The running total ends on 21. getchar + ASCII arithmetic, character by character."},
+ {type:"write", L:1, q:"Select ALL true statements about high-level languages (real exam was multi-select):\n1) used only to write comments\n2) their programs are strings of binary numbers\n3) they are portable\n4) they are machine-dependent\n5) they provide abstractions to write code in a more concept-based way\n6) they use English-like abbreviations for elementary operations written in binary",
+  sol:`TRUE: 3 (portable) and 5 (abstractions / concept-based).
+
+Everything else is false:
+1, 2, 4 are just wrong for high-level languages.
+6 is the definition of ASSEMBLY language, not high-level — the classic distractor.`,
+  why:"Option 6 ('English-like abbreviations for machine operations') describes assembly. High-level = portable + provides abstractions. Selecting 6 is the mistake that cost marks on the real paper."},
+ {type:"out", L:7, q:"What is the console output of the following fragment?",
+  code:`int n = 10;
+int r = 0;
+
+while (n > 5) {
+    r += n;
+    n -= 2;
+}
+
+printf("%i", r);`, ans:"24",
+  why:"n=10 → r=10, n=8; n=8 → r=18, n=6; n=6 → r=24, n=4; 4 > 5 is false → stop. r = 24. Trace both variables together, one line at a time."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 1979;
+int b = 2;
+printf("%i", a / b);`, ans:"989",
+  why:"1979 / 2 with two ints is integer division = 989; the fractional .5 is discarded."},
+ {type:"write", L:7, q:"THE BIG ONE — 10 of 25 marks (40% of the whole exam). Write a C program that reads integers from input, one per line: if the number is negative, terminate with no further output; if it is positive, print the sum of all EVEN numbers from 1 to N inclusive. Input is never 0, and you keep reading until a negative number arrives.",
+  code:`Example (input → output):
+6   -> 12    (2 + 4 + 6)
+5   -> 6     (2 + 4)
+6   -> 12
+-1  -> nothing, program ends`, sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n;
+    while (1) {
+        scanf("%i", &n);
+        if (n < 0) {
+            break;
+        } else {
+            int sum = 0;
+            for (int i = 1; i <= n; i++) {
+                if (i % 2 == 0)
+                    sum += i;
+            }
+            printf("%i\\n", sum);
+        }
+    }
+    return 0;
+}`,
+  why:"This single question is 40% of the grade — it decides your midterm more than everything else combined. It's a read-until-sentinel loop — while(1) with break on a negative — wrapping an inner sum-of-evens loop. On the real exam it ran against hidden test cases, so exact output matters: one sum per line, nothing extra. This is why the Write code tab is the most important thing to grind."}
+]},
 {id:"m1a", title:"Mock Midterm 1 — Paper A", mins:60, qs:[
  {type:"mcq", L:1, q:"Which of these is NOT part of a CPU as listed in Lesson 1?",
   choices:["Arithmetic Logic Unit","Program Counter","Secondary Storage","Control Unit"], correct:2,
@@ -1943,7 +2083,7 @@ int main(void) {
 
 /* ============================ CHEAT SHEET ============================ */
 const SHEET = {
-  intro:"Everything below is fair game for a handwritten exam with no compiler. Learn the tables cold — most lost marks are format specifiers and off-by-one loop bounds, not big ideas.",
+  intro:"Everything below is fair game, and you will not have a compiler to check you. Learn the tables cold — most lost marks are format specifiers and off-by-one loop bounds, not big ideas.",
   outSpec:[
    ["%i","int","Decimal integer. Identical to %d for output."],
    ["%d","int","Decimal integer. Identical to %i for output."],
@@ -2055,7 +2195,7 @@ function renderPlan(){
       <div class="stack">
         <div class="eyebrow">CSCI 151 · Programming for Scientists and Engineers</div>
         <h1 style="font-size:clamp(28px,6.5vw,40px)">Midterm 1, drilled to the ground.</h1>
-        <p class="lede">Lessons 1 to 13. Handwritten paper, no compiler — so the whole game is tracing output in your head and writing clean C by hand. Read the lessons, grind the practice bank, write real programs, then sit the mocks under the clock.</p>
+        <p class="lede">Lessons 1 to 13. Either way the game is the same: tracing output in your head and writing clean C without a compiler to catch you. Read the lessons, grind the practice bank, write real programs, then sit the mocks under the clock.</p>
       </div>
 
       <div class="hero">
@@ -2066,7 +2206,7 @@ function renderPlan(){
 
       <div class="grid">
         <div class="tile"><h4>When &amp; where</h4><p>Tue 29 Sep 2026, 20:00–21:00 (1 hour). Ballroom Left = lab sections 1–5 (Iliyas Tursynbek); Ballroom Right = sections 6–10 (Olzhas Adiyatov).</p></div>
-        <div class="tile"><h4>Bring</h4><p>University ID and pens. Paper is provided. No compiler, no notes — everything is by hand.</p></div>
+        <div class="tile"><h4>Bring</h4><p>University ID and pens; paper is provided. But last year's Section 2 paper was an online Moodle quiz — <b>confirm the format with your instructor</b>. Prepare by hand either way.</p></div>
         <div class="tile"><h4>Covers</h4><p>Lessons 1–13: from how programs work through operators, all three loops, if-statements, formatted &amp; file I/O, and arrays (1-D and 2-D).</p></div>
       </div>
 
@@ -2082,8 +2222,8 @@ function renderPlan(){
       </div>
 
       <div class="trap">
-        <b>Honesty note</b>
-        The mock papers are modelled on the lesson material and the course's own style — they are <b>not</b> real past exams. If you get hold of a genuine past Midterm 1 or the lab sheets, use those over the mocks: real question phrasing beats any reconstruction.
+        <b>What the real Fall 2025 paper tells us</b>
+        We now have a genuine past Midterm 1 (Section 2) — it's in the Mock exams tab, marked <b>Real paper</b>. It was an <b>online Moodle quiz with an auto-graded code editor</b>, 12 questions, 25 marks, 1 hour: eleven short output-tracing / concept questions, and <b>one program-writing question worth 10 marks — 40% of the whole exam</b>. So the highest-value thing you can do is grind the <b>Write code</b> tab. Your Fall 2026 exam may differ in format (confirm with the instructor); the two "Mock" papers are reconstructions, not real.
       </div>
     </div>`;
   tickClock();
@@ -2286,20 +2426,24 @@ function renderExam(){
   const wrap=el('div','col stack');
   wrap.appendChild(el('div',null,
     `<div class="eyebrow">Mock exams</div>
-     <h1 style="font-size:26px;margin:6px 0 4px">Sit it under the clock</h1>
-     <p class="lede">60 minutes, same as the real thing. Answer every question, then submit for an auto-graded score and a full explanation on each. Write-code questions you mark yourself against the model solution.</p>`));
+     <h1 style="font-size:clamp(24px,5.5vw,30px);margin:6px 0 4px">Sit it under the clock</h1>
+     <p class="lede">60 minutes. Answer every question, then submit for an auto-graded score and a full explanation on each. Write-code questions you mark yourself against the model solution. The top paper is the <b>real Fall 2025 exam</b> — do that one first.</p>`));
 
   const pick=el('div','stack');
   EXAMS.forEach(ex=>{
     const t=el('div','tile');
     t.style.cursor='pointer';
+    if(ex.real){ t.style.borderColor='var(--accent)'; t.style.boxShadow='0 0 0 1px var(--accent), var(--shadow)'; }
     const counts=ex.qs.reduce((a,q)=>{a[q.type]=(a[q.type]||0)+1;return a;},{});
-    t.innerHTML=`<h4>${esc(ex.title)}</h4><p>${ex.qs.length} questions · ${ex.mins} min · ${counts.mcq||0} choice, ${counts.out||0} trace, ${counts.write||0} write-code</p>`;
+    const badge = ex.real ? '<span class="pill lab" style="margin-left:8px">Real paper</span>' : '';
+    t.innerHTML=`<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px"><h4 style="color:var(--ink);text-transform:none;letter-spacing:0;font-size:15px;margin:0">${esc(ex.title)}</h4>${badge}</div>
+      <p style="margin-top:6px">${ex.qs.length} questions · ${ex.mins} min · ${counts.out||0} trace, ${counts.write||0} write-code${counts.mcq?`, ${counts.mcq} choice`:''}</p>
+      ${ex.note?`<p style="margin-top:8px;font-size:13px">${ex.note}</p>`:''}`;
     t.addEventListener('click', ()=>startExam(ex));
     pick.appendChild(t);
   });
   wrap.appendChild(pick);
-  wrap.appendChild(el('div','trap','<b>reminder</b>These papers are modelled on the lessons, not copied from a real exam. Treat the score as a readiness signal, not a prediction.'));
+  wrap.appendChild(el('div','trap','<b>note on format</b>The real paper above was an online Moodle quiz with an auto-graded code editor, not a handwritten test — and its one program-writing question was 40% of the marks. Your Fall 2026 sitting may differ, so confirm the format with the instructor. The two "Mock" papers below it are modelled on the lessons, not real exams.'));
   s.appendChild(wrap);
 }
 
@@ -2980,9 +3124,17 @@ function renderSheet(){
     <div class="col stack-lg">
       <div class="stack">
         <div class="eyebrow">Cheat sheet</div>
-        <h1 style="font-size:26px">The tables to memorise</h1>
+        <h1 style="font-size:clamp(24px,5.5vw,30px)">The tables to memorise</h1>
         <p class="lede">${S.intro}</p>
       </div>
+
+      <a class="reflink" href="https://csci-orphs-notes.notion.site/Quick-Reference-by-Orph-151-2a492df6fe65804c9cefc1ea7687a2f2" target="_blank" rel="noopener">
+        <div>
+          <div class="eyebrow" style="color:inherit;opacity:.85">External · opens in a new tab</div>
+          <div style="font-family:var(--mono);font-weight:600;margin-top:4px">Quick Reference by Orph →</div>
+          <div style="font-size:13.5px;opacity:.92;margin-top:4px">A fellow student's full CSCI 151 reference notes. Great second source alongside these tables.</div>
+        </div>
+      </a>
 
       <div class="stack">
         <h2 style="font-size:18px">printf — output specifiers</h2>
