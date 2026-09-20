@@ -1,0 +1,3037 @@
+<title>Midterm One Drill</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --paper:#f7f5fc; --surface:#ffffff; --sunk:#f0ecf9;
+    --ink:#1a1626; --ink-2:#55506a; --ink-3:#8b86a0;
+    --rule:#eae5f5; --rule-2:#d8d0ec;
+    --accent:#7c3aed; --accent-2:#a855f7; --accent-soft:#f1e9fe;
+    --ok:#2b7a51; --ok-soft:#e6f1ea;
+    --bad:#c23b2c; --bad-soft:#f9e8e5;
+    --code-bg:#f4f0fb;
+    --shadow:0 1px 2px rgba(37,20,66,.04),0 4px 16px rgba(37,20,66,.05);
+    --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#120f1a; --surface:#1a1626; --sunk:#221c33;
+      --ink:#ece8f6; --ink-2:#b2aac6; --ink-3:#847c9c;
+      --rule:#2b2440; --rule-2:#423a5c;
+      --accent:#b99bff; --accent-2:#c9b0ff; --accent-soft:#261d3f;
+      --ok:#6ec294; --ok-soft:#16281f;
+      --bad:#ea8877; --bad-soft:#2b1a17;
+      --code-bg:#201a30;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#120f1a; --surface:#1a1626; --sunk:#221c33;
+    --ink:#ece8f6; --ink-2:#b2aac6; --ink-3:#847c9c;
+    --rule:#2b2440; --rule-2:#423a5c;
+    --accent:#b99bff; --accent-2:#c9b0ff; --accent-soft:#261d3f;
+    --ok:#6ec294; --ok-soft:#16281f;
+    --bad:#ea8877; --bad-soft:#2b1a17;
+    --code-bg:#201a30;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--mono);font-weight:600;line-height:1.22;letter-spacing:-.01em;text-wrap:balance;margin:0}
+  h1{letter-spacing:-.02em}
+  p{margin:0}
+  a{color:var(--accent)}
+  code,pre,kbd{font-family:var(--mono)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ---- top bar ---- */
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+  .bar-in{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .brand span{color:var(--accent)}
+  .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;background:none;border:0;color:var(--ink-2);padding:6px 10px;border-radius:5px;cursor:pointer;white-space:nowrap}
+  .tab:hover{color:var(--ink);background:var(--sunk)}
+  .tab[aria-selected="true"]{background:var(--accent);color:var(--surface)}
+
+  /* ---- layout ---- */
+  .wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
+  .col{max-width:70ch}
+  .stack{display:flex;flex-direction:column;gap:18px}
+  .stack-lg{display:flex;flex-direction:column;gap:34px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .lede{color:var(--ink-2);font-size:17px;line-height:1.55}
+  hr{border:0;border-top:1px solid var(--rule);margin:0}
+
+  /* ---- exam clock ---- */
+  .clock{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-left:3px solid var(--accent);padding:2px 0 2px 14px}
+  .clock b{font-family:var(--mono);font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;color:var(--accent);letter-spacing:-.01em}
+  .clock small{color:var(--ink-2);font-size:14px}
+
+  /* ---- hero countdown ---- */
+  .hero{background:linear-gradient(140deg,#6d28d9 0%,#7c3aed 46%,#a855f7 100%);color:#fff;border-radius:18px;padding:26px 26px 24px;box-shadow:0 16px 40px -14px rgba(124,58,237,.6);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.10)}
+  .hero::before{content:"";position:absolute;right:24px;bottom:-70px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.07)}
+  .hero>*{position:relative;z-index:1}
+  .hlabel{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.82}
+  .hbig{font-family:var(--mono);font-size:clamp(34px,8.5vw,52px);font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;margin-top:10px}
+  .hsub{font-size:13.5px;opacity:.92;margin-top:10px;line-height:1.5}
+  .tile{transition:transform .14s ease,box-shadow .14s ease}
+  .tile:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(37,20,66,.05),0 10px 26px rgba(37,20,66,.09)}
+
+  /* ---- generic pieces ---- */
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .tile{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:15px 17px;box-shadow:var(--shadow)}
+  .tile h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+  .tile p{font-size:14px;color:var(--ink-2)}
+  .k{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:26px;font-weight:600}
+
+  pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:7px;padding:12px 14px;overflow-x:auto;font-size:13.5px;line-height:1.55;margin:0}
+  pre b{font-weight:600;color:var(--accent)}
+  p code,li code{background:var(--code-bg);border-radius:4px;padding:1px 5px;font-size:.88em}
+  ul,ol{margin:0;padding-left:20px}
+  li{margin:5px 0}
+  li::marker{color:var(--ink-3)}
+
+  .trap{border-left:3px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 6px 6px 0;font-size:14.5px}
+  .trap b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--bad);margin-bottom:2px}
+
+  /* ---- lesson list ---- */
+  .lesson{border-top:1px solid var(--rule);padding-top:16px}
+  .lesson-head{display:flex;gap:12px;align-items:flex-start;cursor:pointer;user-select:none}
+  .num{font-family:var(--mono);font-size:12px;color:var(--ink-3);padding-top:4px;min-width:26px;font-variant-numeric:tabular-nums}
+  .lesson h3{font-size:16px;flex:1}
+  .lesson-sub{font-size:14px;color:var(--ink-2);margin-top:2px}
+  .chev{color:var(--ink-3);font-family:var(--mono);font-size:12px;padding-top:4px}
+  .lesson-body{padding:16px 0 4px 38px;display:flex;flex-direction:column;gap:16px}
+  @media(max-width:520px){.lesson-body{padding-left:0}}
+
+  .done-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule-2);background:none;color:var(--ink-3);border-radius:20px;padding:3px 10px;cursor:pointer}
+  .done-btn[data-on="1"]{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+
+  /* ---- questions ---- */
+  .q{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:17px;display:flex;flex-direction:column;gap:11px;box-shadow:var(--shadow)}
+  .q-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--rule-2);border-radius:20px;padding:2px 8px}
+  .pill.acc{color:var(--accent);border-color:transparent;background:var(--accent-soft)}
+  .pill.lab{color:var(--surface);border-color:transparent;background:var(--accent)}
+  .q-text{font-size:15px}
+  .choices{display:flex;flex-direction:column;gap:6px}
+  .choice{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;padding:8px 11px;border:1px solid var(--rule);border-radius:7px;cursor:pointer;transition:border-color .12s,background .12s}
+  .choice:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .choice input{margin-top:5px;accent-color:var(--accent)}
+  .choice.right{border-color:var(--ok);background:var(--ok-soft)}
+  .choice.wrong{border-color:var(--bad);background:var(--bad-soft)}
+  input[type=text]{font-family:var(--mono);font-size:14px;width:100%;padding:8px 10px;border:1px solid var(--rule-2);border-radius:6px;background:var(--sunk);color:var(--ink)}
+  textarea{font-family:var(--mono);font-size:13.5px;width:100%;min-height:120px;padding:10px;border:1px solid var(--rule-2);border-radius:6px;background:var(--sunk);color:var(--ink);resize:vertical}
+  .ans{border-top:1px dashed var(--rule-2);padding-top:11px;display:flex;flex-direction:column;gap:9px;font-size:14.5px}
+  .ans .why{color:var(--ink-2)}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .verdict.ok{color:var(--ok)} .verdict.bad{color:var(--bad)}
+
+  button.act{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;background:var(--accent);color:var(--surface);border:0;border-radius:6px;padding:8px 15px;cursor:pointer;align-self:flex-start}
+  button.act:hover{filter:brightness(1.08)}
+  button.ghost{background:none;color:var(--accent);border:1px solid var(--rule-2)}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:12px;border:1px solid var(--rule-2);background:var(--surface);color:var(--ink-2);border-radius:20px;padding:4px 11px;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+
+  /* ---- exam runner ---- */
+  .examtop{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:10;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:11px 15px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .timer{font-family:var(--mono);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+  .timer.low{color:var(--bad)}
+  .bar-track{flex:1;min-width:110px;height:5px;background:var(--sunk);border-radius:3px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--accent);width:0}
+  table{border-collapse:collapse;font-size:14px;width:100%}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule)}
+  th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  td code{font-size:13px}
+  .scroller{overflow-x:auto}
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand">CSCI<span>151</span> / Midterm 1</div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-view="plan" aria-selected="true">Plan</button>
+      <button class="tab" role="tab" data-view="lessons" aria-selected="false">Lessons 1-13</button>
+      <button class="tab" role="tab" data-view="practice" aria-selected="false">Practice</button>
+      <button class="tab" role="tab" data-view="write" aria-selected="false">Write code</button>
+      <button class="tab" role="tab" data-view="exam" aria-selected="false">Mock exams</button>
+      <button class="tab" role="tab" data-view="sheet" aria-selected="false">Cheat sheet</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="v-plan"></section>
+  <section id="v-lessons" hidden></section>
+  <section id="v-practice" hidden></section>
+  <section id="v-write" hidden></section>
+  <section id="v-exam" hidden></section>
+  <section id="v-sheet" hidden></section>
+</main>
+<script>
+/* ============================ COURSE DATA ============================
+   Lesson gists, key points and EXERCISES are taken from the CSCI 151
+   lesson pages (sst-csci.com). Solutions, traps, trace questions and
+   mock exams are written for this study site.
+   ==================================================================== */
+
+const LESSONS = [
+{n:1, mod:"Module 1", title:"How Do Programs Work?", gist:"Hardware vs software, what a CPU actually does, and the ladder from machine code to C.",
+ points:[
+  "<b>Hardware</b> is anything physical you can touch. <b>Software</b> is the programs. A DVD is hardware; what's on it is software.",
+  "<b>Main memory</b> holds the running program and its short-term data. <b>Secondary storage</b> (disk, SSD) holds what isn't needed right now. Browsing folders = looking at secondary storage.",
+  "CPU parts: <b>Control Unit</b> (coordinates), <b>ALU</b> (integer arithmetic + logic), <b>FPU</b> (floating-point math), <b>Registers</b> (super short-term memory), <b>Program Counter</b> (address the next instruction comes from).",
+  "A <b>bit</b> = binary digit, 0 or 1. Implemented historically by mechanical switches, vacuum tubes, transistors, and today integrated circuits.",
+  "<b>Machine language</b> = raw binary the CPU runs. <b>Assembly</b> = English-like abbreviations for those instructions (<code>add r1, r2, r3</code>). Both are <b>low-level</b> and <b>not portable</b> — tied to one CPU.",
+  "An <b>assembler</b> turns assembly into machine code. A <b>compiler</b> turns a high-level language into lower-level code.",
+  "<b>Portable</b> = the program runs on a variety of different computers. High-level languages are generally portable because several compilers target different CPU families.",
+  "C: evolved by <b>Dennis Ritchie</b> at AT&amp;T Bell Labs in the early 1970s from BCPL and B, for the PDP-11; used to write Unix. Standards: 1978 first spec, <b>C89</b> (ANSI C), C90 (ISO), <b>C99</b>, <b>C11</b>.",
+  "<b>Backwards compatibility</b> = a program written in an older version still works in newer versions. C is mostly, but not completely, backwards compatible.",
+  "C's drawbacks: manual memory management (biggest source of bugs), manual error handling, no bounds checking (security issues), no encapsulation / information hiding."
+ ],
+ traps:[
+  {t:"Assembler vs compiler", b:"Both translate, but an <b>assembler</b> goes assembly → machine code (one-to-one-ish), a <b>compiler</b> goes high-level → low-level (one line becomes many instructions). Exam loves this pair."},
+  {t:"Portability direction", b:"High-level = portable. Machine and assembly = NOT portable. Don't flip it."},
+  {t:"Why assembly still exists", b:"Two reasons only: hand-optimising for a specific CPU, and low-level systems work (drivers, peripherals)."}
+ ],
+ quiz:[
+  {q:"How are main memory and secondary storage different?", a:"Main memory holds the currently running program and its working data; it's fast and directly used by the CPU. Secondary storage (hard disk, SSD) holds data not needed at this moment; the CPU fetches things from it into main memory when the running program needs them. Main memory is volatile working space, secondary storage is the persistent file system you browse."},
+  {q:"What is the difference between a compiler and an assembler? How are they similar?", a:"Both are programs that translate source code into a lower-level form. An assembler translates assembly language into binary machine language — essentially a symbolic renaming of machine instructions. A compiler translates a high-level language (like C) into low-level code; one high-level statement can expand into many machine instructions, and the compiler must handle abstractions the CPU has no concept of."},
+  {q:"Name three high-level languages not mentioned in the lesson.", a:"Examples: Rust, Go, JavaScript, Kotlin, Swift, Ruby, Haskell, MATLAB, R, Pascal."},
+  {q:"Why write in a machine-independent language? When is machine-dependent better?", a:"Machine-independent (portable) code runs on many CPU families without rewriting, and is far easier to write and maintain for large programs. Machine-dependent code is better when you need maximum performance on one specific chip, or when you must touch hardware directly — device drivers, peripherals, microcontroller bootstrapping."},
+  {q:"Why do we want backwards compatibility in a language?", a:"So existing programs, libraries and accumulated code keep working when the language is updated. Without it, every new standard would force expensive rewrites and people would simply refuse to upgrade."}
+ ], ex:[]},
+
+{n:2, mod:"Module 1", title:"Intro to Eclipse CDT", gist:"The three stages of getting a program to run, and what an IDE does for you.",
+ points:[
+  "The three stages of program creation and execution: <b>1. Write</b> the program, <b>2. Build</b> (compile <i>and link</i>), <b>3. Run</b> it.",
+  "The build stage includes compiling, but also combines multiple program files and libraries into a single executable machine-language program — that's the <b>linking</b> step.",
+  "An <b>IDE</b> (Integrated Development Environment) puts editing, compiling, running and debugging in one windowed application. This course uses <b>Eclipse CDT</b> with the <b>MinGW</b> compiler tools.",
+  "<b>Debug</b> vs <b>Release</b> build settings control what internal information is included in the runnable program (debug keeps symbols for stepping through code; release is stripped and optimised).",
+  "<b>Comments</b> don't affect what the program does — they exist for the humans reading the code, including future you."
+ ],
+ traps:[
+  {t:"Build is not just compile", b:"If a question asks for the stages, \"compile\" alone is incomplete — building is compile <b>and link</b>."}
+ ], quiz:[],
+ ex:[
+  {q:"For a box with dimensions l, w, h (assign any values you want), compute and output the volume and surface area.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double l = 3.0, w = 4.0, h = 5.0;
+
+    double volume = l * w * h;
+    double surface = 2 * (l*w + l*h + w*h);
+
+    printf("Volume:       %.2f\\n", volume);
+    printf("Surface area: %.2f\\n", surface);
+
+    return 0;
+}`}
+ ]},
+
+{n:3, mod:"Module 1", title:"Programs and Variables", gist:"Syntax and the three error types, readable code, the five-step problem-solving process, and variables.",
+ points:[
+  "<b>Syntax</b> = the rules for properly forming statements in a language, just like grammar rules for forming English sentences.",
+  "<b>Syntax error</b>: the code breaks the language rules — the compiler catches it and refuses to build. e.g. a missing semicolon.",
+  "<b>Runtime error</b>: the program compiles and starts, then crashes or fails while running. e.g. dividing by zero.",
+  "<b>Logical error</b>: it compiles, it runs, it finishes — and the answer is simply wrong. The compiler cannot help you here. These are the dangerous ones.",
+  "Five-step program development (waterfall + Polya): <b>1</b> understand / analyse the problem, <b>2</b> design a solution, <b>3</b> implement it in code, <b>4</b> test and debug, <b>5</b> maintain / review.",
+  "A <b>variable</b> is a named box in memory holding a value of a declared type. Declare it, then assign to it: <code>int count; count = 5;</code> or together, <code>int count = 5;</code>.",
+  "Naming: use meaningful names, start with a letter or underscore, no spaces, C is <b>case-sensitive</b>, and you cannot use keywords (<code>int</code>, <code>for</code>, <code>return</code>...)."
+ ],
+ traps:[
+  {t:"Case sensitivity", b:"<code>sum</code>, <code>Sum</code> and <code>SUM</code> are three <i>different</i> variables. Legal, but a guaranteed logical error waiting to happen — and a favourite exam question."},
+  {t:"Runtime vs logical", b:"Runtime error = the program breaks. Logical error = the program works fine and lies to you. If the question says \"produces the wrong answer but runs\", it's logical."},
+  {t:"Declaring twice", b:"<code>int x = 5; int x = 7;</code> in the same scope is a syntax error, not an overwrite."}
+ ],
+ quiz:[
+  {q:"Give examples of syntax errors in English sentences.", a:"\"Dog the ran fast\" (word order), \"He go to school yesterday\" (verb agreement/tense), \"I has three book\" (agreement and plural), a sentence with no verb at all. Each breaks a structural rule while the intended meaning may still be guessable — exactly like a missing semicolon in C."},
+  {q:"What is the main difference between a runtime error and a logical error?", a:"A runtime error stops or crashes the program while it is executing — the program cannot finish. A logical error lets the program run to completion perfectly normally, but the result it produces is incorrect. The compiler catches neither, but a runtime error announces itself; a logical error stays silent, which makes it more dangerous."},
+  {q:"Why is each of the five problem-solving steps important? What if we skipped the first or second?", a:"Skipping step 1 (understanding the problem) means you may build a correct solution to the wrong problem — all later work is wasted. Skipping step 2 (design) means you code without a plan, producing tangled code that is hard to test, debug or extend, and you often discover halfway through that the structure can't support what's needed. Each step catches a class of mistake far more cheaply than the step after it."},
+  {q:"Why is declaring sum, SUM and Sum a bad idea even though it is legal?", a:"C is case-sensitive so the compiler happily treats them as three separate variables, but a human reader cannot reliably tell them apart. Mistyping one for another produces a silent logical error that compiles and runs. Names should differ in meaning, not just in capitalisation."}
+ ],
+ ex:[
+  {q:"Measurement conversion. Store a length in metres as a double, convert it to centimetres, myriametres, inches, miles and furlongs, and print all values with suitable messages.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double metres = 1609.344;
+
+    double cm         = metres * 100.0;
+    double myriametre = metres / 10000.0;   /* 1 myriametre = 10 000 m */
+    double inches     = metres / 0.0254;
+    double miles      = metres / 1609.344;
+    double furlongs   = metres / 201.168;   /* 1 furlong = 1/8 mile */
+
+    printf("Length:      %.4f m\\n", metres);
+    printf("Centimetres: %.4f cm\\n", cm);
+    printf("Myriametres: %.6f\\n", myriametre);
+    printf("Inches:      %.4f in\\n", inches);
+    printf("Miles:       %.6f mi\\n", miles);
+    printf("Furlongs:    %.6f fur\\n", furlongs);
+
+    return 0;
+}`,
+   note:"Every conversion factor is a <code>double</code> literal with a decimal point. Writing <code>metres / 10000</code> is fine here because <code>metres</code> is a double, but get into the habit of <code>10000.0</code> — the moment both sides are ints you get truncation."},
+  {q:"Cone properties. Store height and radius of a cone as doubles. Compute the surface area, the area of the circular base, and the volume. Use sqrt(x) from math.h. Output everything.",
+   sol:`#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double PI = 3.14159265358979;
+    double h = 10.0;
+    double r = 3.0;
+
+    double slant   = sqrt(r*r + h*h);        /* slant height */
+    double base    = PI * r * r;
+    double lateral = PI * r * slant;
+    double surface = base + lateral;
+    double volume  = base * h / 3.0;
+
+    printf("Radius:        %.4f\\n", r);
+    printf("Height:        %.4f\\n", h);
+    printf("Slant height:  %.4f\\n", slant);
+    printf("Base area:     %.4f\\n", base);
+    printf("Surface area:  %.4f\\n", surface);
+    printf("Volume:        %.4f\\n", volume);
+
+    return 0;
+}`,
+   note:"Total surface = base + lateral, and lateral needs the slant height sqrt(r²+h²) — not h. Volume is (1/3)·base·h; write <code>/ 3.0</code>, never <code>/ 3</code> if any int is involved."},
+  {q:"Grade calculator. Declare variables holding all your grade information, use the syllabus assessment percentages, and compute and display your final course percentage as a floating-point number.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    /* raw scores, as percentages */
+    double labs      = 88.0;
+    double midterm1  = 74.0;
+    double midterm2  = 80.0;
+    double finalExam = 69.0;
+
+    /* weights, from the syllabus - substitute your real ones */
+    double wLabs = 0.30, wMid1 = 0.15, wMid2 = 0.15, wFinal = 0.40;
+
+    double total = labs*wLabs + midterm1*wMid1
+                 + midterm2*wMid2 + finalExam*wFinal;
+
+    printf("Labs      %.1f  (weight %.0f%%)\\n", labs,      wLabs*100);
+    printf("Midterm 1 %.1f  (weight %.0f%%)\\n", midterm1,  wMid1*100);
+    printf("Midterm 2 %.1f  (weight %.0f%%)\\n", midterm2,  wMid2*100);
+    printf("Final     %.1f  (weight %.0f%%)\\n", finalExam, wFinal*100);
+    printf("----------------------------\\n");
+    printf("Course percentage: %.2f%%\\n", total);
+
+    return 0;
+}`,
+   note:"To print a literal percent sign with printf you write <code>%%</code>. A single <code>%</code> makes printf hunt for a format specifier and read garbage."}
+ ]},
+
+{n:4, mod:"Module 1", title:"Basic Types and I/O", gist:"The five basic types, printf/scanf format characters, escape characters, ASCII.",
+ points:[
+  "<b>int</b> — integers, no decimal places. <b>float</b> — floating-point. <b>double</b> — same as float but roughly twice the precision. <b>char</b> — a single character. <b>_Bool</b> — 0 or 1 (added in C99).",
+  "<b>printf</b> integers: <code>%i</code> or <code>%d</code> decimal, <code>%o</code> octal (e.g. 023), <code>%x</code> hex (e.g. 0xA2F).",
+  "<b>scanf</b> integers: just use <code>%i</code> for all three representations — a leading <code>0</code> tells scanf it's octal, a leading <code>0x</code> tells it hex.",
+  "<b>printf</b> floats: <code>%f</code> plain, <code>%e</code> scientific, <code>%g</code> whatever looks best.",
+  "<b>scanf</b> floats: <code>%f</code> for a <b>float</b>, <code>%lf</code> (\"long float\") for a <b>double</b>. This asymmetry is the single most-tested detail in the lesson.",
+  "<b>char</b>: <code>%c</code> for both printf and scanf. Chars are stored internally as ints, using their <b>ASCII</b> values.",
+  "<b>_Bool</b>: assigning any nonzero number stores <b>1</b>. Print it with <code>%i</code> — there is no specifier that prints \"true\"/\"false\".",
+  "Always put an <b>&amp;</b> before the variable in scanf when reading any basic type.",
+  "Put <code>setvbuf(stdout, NULL, _IONBF, 0);</code> at the start of main so Eclipse synchronises input and output the way you expect."
+ ],
+ traps:[
+  {t:"%f vs %lf in scanf", b:"<code>scanf(\"%f\", &amp;myDouble)</code> silently corrupts the value. A double needs <code>%lf</code> on <i>input</i>. On output, printf takes <code>%f</code> for both — because floats are promoted to double when passed."},
+  {t:"Missing the ampersand", b:"<code>scanf(\"%i\", n)</code> instead of <code>&amp;n</code> compiles but crashes or writes to a random address. scanf needs the <i>address</i> of the box, not its contents."},
+  {t:"Escape characters", b:"<code>\\n</code> newline, <code>\\t</code> tab, <code>\\\\</code> backslash, <code>\\'</code> single quote, <code>\\\"</code> double quote, <code>\\0</code> null. To print one backslash you type two."},
+  {t:"_Bool stores 1, not the value", b:"<code>_Bool b = 42;</code> then <code>printf(\"%i\", b)</code> prints <b>1</b>, not 42."}
+ ],
+ quiz:[],
+ ex:[
+  {q:"Modify your Lesson 3 code so input comes from the user via scanf instead of hard-coded values.",
+   sol:`#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double h, r;
+    double PI = 3.14159265358979;
+
+    printf("Enter cone height: ");
+    scanf("%lf", &h);          /* %lf - it is a double */
+
+    printf("Enter base radius: ");
+    scanf("%lf", &r);
+
+    double base    = PI * r * r;
+    double slant   = sqrt(r*r + h*h);
+    double surface = base + PI * r * slant;
+    double volume  = base * h / 3.0;
+
+    printf("Base area:    %.4f\\n", base);
+    printf("Surface area: %.4f\\n", surface);
+    printf("Volume:       %.4f\\n", volume);
+
+    return 0;
+}`,
+   note:"Two things kill this exercise in an exam: <code>%f</code> instead of <code>%lf</code>, and a forgotten <code>&amp;</code>."},
+  {q:"Write printf statements using format characters to convert: octal 010, 062, 05712 to decimal; decimal 5, 40, 125, 1000000 to octal; hex 0x23, 0x2A9, 0xDECAF to decimal; decimal 38, 259, 98765, 1000000 to hexadecimal.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    /* octal literal in, decimal out */
+    printf("010   = %i\\n", 010);      /*      8 */
+    printf("062   = %i\\n", 062);      /*     50 */
+    printf("05712 = %i\\n", 05712);    /*   3018 */
+
+    /* decimal in, octal out */
+    printf("5       = %o\\n", 5);         /*        5 */
+    printf("40      = %o\\n", 40);        /*       50 */
+    printf("125     = %o\\n", 125);       /*      175 */
+    printf("1000000 = %o\\n", 1000000);   /*  3641100 */
+
+    /* hex literal in, decimal out */
+    printf("0x23    = %i\\n", 0x23);      /*      35 */
+    printf("0x2A9   = %i\\n", 0x2A9);     /*     681 */
+    printf("0xDECAF = %i\\n", 0xDECAF);   /*  912559 */
+
+    /* decimal in, hex out */
+    printf("38      = %x\\n", 38);        /*      26 */
+    printf("259     = %x\\n", 259);       /*     103 */
+    printf("98765   = %x\\n", 98765);     /*   181cd */
+    printf("1000000 = %x\\n", 1000000);   /*   f4240 */
+
+    return 0;
+}`,
+   note:"The conversion happens entirely in the <i>format character</i> — the number in memory never changes, only how printf renders it. Note <code>010</code> in source means eight, not ten: a leading zero is an octal literal. Use <code>%X</code> for uppercase hex digits."},
+  {q:"Find the largest int value that can be stored, by running printf(\"%i\", ...) with larger and larger numbers until you get garbage output.",
+   sol:`#include <stdio.h>
+#include <limits.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    printf("%i\\n", 2147483647);   /* INT_MAX - fine      */
+    printf("%i\\n", 2147483648);   /* overflows - garbage */
+
+    printf("INT_MAX = %i\\n", INT_MAX);
+    printf("INT_MIN = %i\\n", INT_MIN);
+    return 0;
+}`,
+   note:"On a typical 32-bit int: max <b>2147483647</b> = 2³¹−1, min <b>−2147483648</b>. One past the max wraps around to the minimum — that's integer overflow, and it is silent."}
+ ]},
+
+{n:5, mod:"Module 1", title:"Operators", gist:"Arithmetic, integer division, casting, modulo, enhanced assignment, relational and boolean operators.",
+ points:[
+  "Basic binary numeric operators <code>+ - * /</code>. Multiplication and division happen before addition and subtraction; equal precedence evaluates left to right; parentheses force an order.",
+  "<b>If both operands are integers, the result is an integer</b> — division truncates. If either operand is floating-point, the result is floating-point.",
+  "<b>Unary minus</b> takes precedence over the other arithmetic operations.",
+  "<b>Type casting</b> forces a value to be treated as another type. Casting double→int <b>truncates at the decimal point</b> (it does not round). Casting int→double just adds 0s after the decimal point. Casting takes precedence over arithmetic.",
+  "<b>Modulo %</b> gives the integer remainder of an integer division, with the <i>same precedence as * and /</i>. If the number is smaller than the modulus, the result is the number itself: <code>99 % 100</code> is 99.",
+  "<b>Enhanced assignment</b>: <code>+= -= *= /= %=</code>, plus the unary <code>++</code> and <code>--</code>.",
+  "<b>Relational</b>: <code>== != &lt; &gt; &lt;= &gt;=</code>. <b>Boolean</b>: <code>&amp;&amp;</code> AND, <code>||</code> OR, <code>!</code> NOT."
+ ],
+ traps:[
+  {t:"Integer division", b:"<code>7 / 2</code> is <b>3</b>. <code>1 / 2</code> is <b>0</b>. <code>double x = 1/2;</code> stores <b>0.0</b> — the division finished as ints before the assignment ever happened. Fix: <code>1.0/2</code> or <code>(double)1/2</code>."},
+  {t:"Casting truncates, never rounds", b:"<code>(int)3.99</code> is <b>3</b>. <code>(int)-3.99</code> is <b>-3</b>. Toward zero, always."},
+  {t:"= versus ==", b:"<code>if (x = 5)</code> assigns 5 to x and is always true. <code>==</code> compares. This compiles without complaint."},
+  {t:"Cast binds tighter than arithmetic", b:"<code>(double)a / b</code> casts a first, then does real division — correct. <code>(double)(a / b)</code> does the int division first, then casts the already-wrong answer."},
+  {t:"Modulo precedence", b:"<code>%</code> sits with <code>*</code> and <code>/</code>, not below them. <code>2 + 7 % 3</code> is <code>2 + 1</code> = <b>3</b>."}
+ ],
+ quiz:[],
+ ex:[
+  {q:"Quadratic equation. Read three doubles a, b, c from the user and calculate both roots. Use sqrt from math.h. Don't worry about imaginary roots.",
+   sol:`#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double a, b, c;
+
+    printf("Enter a, b, c: ");
+    scanf("%lf %lf %lf", &a, &b, &c);
+
+    double disc = b*b - 4*a*c;
+    double root1 = (-b + sqrt(disc)) / (2*a);
+    double root2 = (-b - sqrt(disc)) / (2*a);
+
+    printf("Discriminant: %.4f\\n", disc);
+    printf("Root 1: %.6f\\n", root1);
+    printf("Root 2: %.6f\\n", root2);
+
+    return 0;
+}`,
+   note:"The parentheses around <code>(2*a)</code> are mandatory. Without them you compute <code>(-b + sqrt(disc)) / 2 * a</code>, which multiplies by a instead of dividing. Classic mark-loser."},
+  {q:"Sine approximation. Read a double x and approximate sin(x) with three terms of the Taylor series around 0. You may use pow(x, n).",
+   sol:`#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double x;
+    printf("Enter x (radians): ");
+    scanf("%lf", &x);
+
+    /* sin x ~ x - x^3/3! + x^5/5! */
+    double approx = x
+                  - pow(x, 3) / 6.0        /* 3! = 6   */
+                  + pow(x, 5) / 120.0;     /* 5! = 120 */
+
+    printf("Approximation: %.8f\\n", approx);
+    printf("Real sin(x):   %.8f\\n", sin(x));
+
+    return 0;
+}`,
+   note:"Signs alternate − then +. Denominators are <b>factorials</b> 3!=6 and 5!=120, not the exponents. Write them as <code>6.0</code>/<code>120.0</code> so the division is floating-point."},
+  {q:"Clock output. Read a single integer = seconds past midnight, and output the time in hh:mm:ss form.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int total;
+    printf("Seconds past midnight: ");
+    scanf("%i", &total);
+
+    int hours   =  total / 3600;
+    int minutes = (total % 3600) / 60;
+    int seconds =  total % 60;
+
+    printf("%02i:%02i:%02i\\n", hours, minutes, seconds);
+
+    return 0;
+}`,
+   note:"This is <i>the</i> canonical integer-division-plus-modulo question and it shows up on exams constantly. <code>%02i</code> pads with a leading zero to width 2, so 3661 prints as 01:01:01 and not 1:1:1."}
+ ]},
+
+{n:6, mod:"Module 2", title:"For Loops", gist:"Loop syntax, control flow, infinite loops, nested loops, and for-loop variants.",
+ points:[
+  "Syntax: <code>for (initialiser; condition; updater) { body }</code>. The initialiser runs <b>once</b>; then the condition is checked <i>before</i> every iteration; the body runs; then the updater runs; repeat.",
+  "<b>A for loop may never enter its body at all</b> — if the condition is false the first time, the body runs zero times.",
+  "<b>Nested loops</b> are loops inside loops. The inner loop runs completely for each single iteration of the outer loop.",
+  "Variants: multiple items in the initialiser and updater separated by commas; any of the three parts may be left <b>blank</b>. Blank condition = infinite loop.",
+  "<code>for (i = 0; i &lt; n; i++)</code> runs <b>n</b> times, with i taking 0..n−1. <code>for (i = 1; i &lt;= n; i++)</code> also runs n times, with i taking 1..n."
+ ],
+ traps:[
+  {t:"Semicolon after the for", b:"<code>for (i=0; i&lt;10; i++);</code> — that semicolon <i>is</i> the whole body. The block after it runs exactly once. No compiler warning."},
+  {t:"Off by one", b:"<code>i &lt;= n</code> versus <code>i &lt; n</code> changes the iteration count by one. When counting to a target, write out the first and last values of i before you commit."},
+  {t:"Modifying the counter inside the body", b:"Changing i inside the body as well as in the updater is the usual cause of an accidental infinite or half-length loop."},
+  {t:"Nested loop counters", b:"An inner loop reusing the outer loop's variable destroys the outer loop. Use i for outer, j for inner."}
+ ],
+ quiz:[
+  {q:"Write for loops that print 2,4,...,100 / 1,3,...,99 / 100,98,...,2 / 99,97,...,1.",
+   a:`for (i = 2;   i <= 100; i += 2) printf("%i ", i);   /* 2,4,...,100  */
+for (i = 1;   i <=  99; i += 2) printf("%i ", i);   /* 1,3,...,99   */
+for (i = 100; i >=   2; i -= 2) printf("%i ", i);   /* 100,98,...,2 */
+for (i = 99;  i >=   1; i -= 2) printf("%i ", i);   /* 99,97,...,1  */`}
+ ],
+ ex:[
+  {q:"Print a Celsius-to-Fahrenheit conversion table for integer values from −50 C to 40 C. Use format strings like %10i for neat columns.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int c;
+
+    printf("%10s%10s\\n", "Celsius", "Fahr");
+    for (c = -50; c <= 40; c++) {
+        double f = c * 9.0 / 5.0 + 32.0;
+        printf("%10i%10.1f\\n", c, f);
+    }
+
+    return 0;
+}`,
+   note:"<code>9.0/5.0</code>, not <code>9/5</code> — the latter is 1 and every row would be wrong by a lot. <code>%10i</code> right-aligns in a field 10 wide."},
+  {q:"Print 2, 4, 8, 16, 32, ..., 65536 — each number twice the previous. Hint: use the loop iterator to count the 16 iterations, and a separate variable for the value.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int i;
+    int val = 1;
+
+    for (i = 1; i <= 16; i++) {
+        val = val * 2;
+        printf("%i\\n", val);
+    }
+
+    return 0;
+}`,
+   note:"Start val at 1 and double <i>before</i> printing, so the first thing printed is 2 and the sixteenth is 65536 = 2¹⁶. Doubling after printing would give 1..32768."},
+  {q:"Using the same idea, print a table displaying the powers of 2.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int i;
+    int val = 1;
+
+    printf("%5s%12s\\n", "n", "2^n");
+    for (i = 0; i <= 16; i++) {
+        printf("%5i%12i\\n", i, val);
+        val = val * 2;
+    }
+
+    return 0;
+}`,
+   note:"Here the print comes <i>before</i> the doubling, because the table must start at 2⁰ = 1."},
+  {q:"Use a nested for loop to print this design:<pre>+++++\n++++*\n+++**\n++***\n+****\n*****</pre>",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int row, col;
+
+    for (row = 0; row <= 5; row++) {
+        for (col = 0; col < 5 - row; col++)
+            printf("+");
+        for (col = 0; col < row; col++)
+            printf("*");
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+   note:"Six rows, so <code>row</code> runs 0..5. Row r has (5−r) plus signs then r stars, and 5−r+r = 5 characters every time. Write the row/count table on your exam paper before coding — it turns the puzzle into arithmetic."},
+  {q:"Get an integer n and a double x from the user, and use a loop to compute x to the power n. Do not use pow().",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    double x, result = 1.0;
+
+    printf("Enter x: ");  scanf("%lf", &x);
+    printf("Enter n: ");  scanf("%i",  &n);
+
+    for (i = 0; i < n; i++)
+        result = result * x;
+
+    printf("%.4f ^ %i = %.6f\\n", x, n, result);
+
+    return 0;
+}`,
+   note:"result must start at <b>1.0</b>, not 0.0 — the identity for multiplication. Starting at 0 gives 0 forever. With n = 0 the loop runs zero times and correctly leaves 1.0."},
+  {q:"Challenge. Get n and x, then compute x¹ + x² + x³ + ... + xⁿ without nested loops and without pow().",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    double x, term = 1.0, sum = 0.0;
+
+    printf("Enter x: ");  scanf("%lf", &x);
+    printf("Enter n: ");  scanf("%i",  &n);
+
+    for (i = 1; i <= n; i++) {
+        term = term * x;   /* term is now x^i  */
+        sum  = sum + term;
+    }
+
+    printf("Sum = %.6f\\n", sum);
+    return 0;
+}`,
+   note:"The trick that kills the nested loop: carry <code>term</code> across iterations. Each pass multiplies by x once, so term walks x¹, x², x³... for free. Every \"no pow, no nested loops\" question uses this same move."},
+  {q:"Challenge. Get n and x, then approximate eˣ with n+1 terms of its Taylor series. No pow(), no nested loops.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    double x, term = 1.0, sum = 1.0;   /* i = 0 term is 1 */
+
+    printf("Enter x: ");  scanf("%lf", &x);
+    printf("Enter n: ");  scanf("%i",  &n);
+
+    for (i = 1; i <= n; i++) {
+        term = term * x / i;   /* x^i / i!  from the previous term */
+        sum  = sum + term;
+    }
+
+    printf("e^%.4f ~ %.8f\\n", x, sum);
+    return 0;
+}`,
+   note:"Same carried-term trick, now handling the factorial too: dividing by i each step turns (i−1)! into i!. One line does both x^i and i!."}
+ ]},
+
+{n:7, mod:"Module 2", title:"While Loops", gist:"While-loop control flow, infinite loops, numeric approximation, and the read-until-sentinel pattern.",
+ points:[
+  "Syntax: <code>while (condition) { body }</code>. The condition is checked <b>before</b> each iteration, so the body may run <b>zero</b> times.",
+  "There's no built-in updater, so you must change something inside the body yourself or the loop never ends.",
+  "<b>Anything a for loop can do, a while loop can do, and vice versa</b> — but one usually reads better than the other. Use <b>for</b> when you know the iteration count; <b>while</b> when you loop until a condition changes.",
+  "The <b>sentinel input pattern</b>: prompt and read <i>before</i> the loop, then prompt and read again at the <i>end</i> of the body. The read appears twice on purpose."
+ ],
+ code:{label:"Sentinel pattern — from the lesson", src:`#include <stdio.h>
+#include <math.h>
+
+int main () {
+  setvbuf(stdout, NULL, _IONBF, 0);
+
+  double inval;
+
+  printf("Enter in a value (enter a negative to quit): ");
+  scanf("%lf", &inval);
+
+  while (inval >= 0.0) {
+    double outval = sqrt(inval);
+    printf("Its square root is: %f\\n\\n", outval);
+
+    printf("Enter in a value (enter a negative to quit): ");
+    scanf("%lf", &inval);
+  }
+
+  printf("Done.");
+  return 0;
+}`},
+ traps:[
+  {t:"Forgetting to update", b:"<code>while (i &lt; 10) printf(\"%i\", i);</code> with no <code>i++</code> prints forever. The most common while-loop bug there is."},
+  {t:"Reading only once", b:"In the sentinel pattern, if you read the input only before the loop, the condition never changes → infinite loop. If you read it only inside, the first check uses an uninitialised variable."},
+  {t:"Semicolon again", b:"<code>while (cond);</code> — empty body, infinite loop if cond stays true."}
+ ],
+ quiz:[
+  {q:"How are for and while loops similar, and how are they different?", a:"Similar: both are pre-test loops — the condition is evaluated before each iteration, so both can run their body zero times, and both can express exactly the same set of computations. Different: the for loop gathers initialiser, condition and updater into one header, which suits a known number of iterations; the while loop has only a condition, and the initialising and updating code lives outside and inside the body, which suits looping until some state changes."},
+  {q:"Convert a for loop to a while loop and back.", a:`for (i = 0; i < n; i++) {
+    body
+}
+
+/* the equivalent while */
+i = 0;
+while (i < n) {
+    body
+    i++;
+}
+
+/* and back: a while loop is a for with blank slots */
+while (cond) { body }
+for ( ; cond ; ) { body }`}
+ ],
+ ex:[
+  {q:"Write a loop that prints the first 20 Fibonacci numbers. Hint: use separate variables for the previous two values.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int prev = 0, curr = 1;
+    int count = 0;
+
+    while (count < 20) {
+        printf("%i ", curr);
+
+        int next = prev + curr;
+        prev = curr;
+        curr = next;
+
+        count++;
+    }
+    printf("\\n");
+    return 0;
+}`,
+   note:"The order of the three reassignments matters. Save <code>next</code> first — if you overwrite <code>prev</code> before computing next, you lose the value you needed."},
+  {q:"For a positive integer n, find the biggest integer k with n ≥ 2ᵏ (integer log base 2). Do not use pow, log2 or anything from math.h.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n;
+    printf("Enter a positive integer: ");
+    scanf("%i", &n);
+
+    int k = 0;
+    int power = 1;          /* 2^0 */
+
+    while (power * 2 <= n) {
+        power = power * 2;
+        k++;
+    }
+
+    printf("Largest k with 2^k <= %i is k = %i (2^%i = %i)\\n",
+           n, k, k, power);
+    return 0;
+}`,
+   note:"Test the <i>next</i> power inside the condition, not the current one — otherwise you overshoot by one. Check by hand with n=8: should give k=3."}
+ ]},
+
+{n:8, mod:"Module 2", title:"Do-While Loops", gist:"The post-test loop, loop interchangeability, and break/continue.",
+ points:[
+  "Syntax: <code>do { body } while (condition);</code> — and yes, that <b>semicolon at the end is required</b>.",
+  "The condition is checked <b>after</b> the body, so a do-while <b>always runs its body at least once</b>. That is the entire difference from a while loop.",
+  "Use it when the action must happen before you can know whether to repeat — menus, input validation, successive division.",
+  "For, while and do-while are <b>interchangeable</b>: any one can be rewritten as any other.",
+  "<b>break</b> exits the loop immediately, from anywhere in the body. <b>continue</b> ends the current iteration but goes on to the next one (if the condition still holds). Don't overuse either — they make code harder to follow."
+ ],
+ code:{label:"Successive division — decimal to binary, from the lesson", src:`#include <stdio.h>
+
+int main (void) {
+
+  int decNum = 40;
+
+  do {
+    int bit = decNum % 2;
+    decNum  = decNum / 2;
+
+    printf("bit: %i \\n", bit);
+
+  } while (decNum > 0);
+
+  printf("Done.");
+  return 0;
+}`},
+ traps:[
+  {t:"Missing semicolon", b:"<code>} while (x &gt; 0)</code> without the trailing <code>;</code> is a syntax error. Everyone forgets it once."},
+  {t:"\"At least once\" bites", b:"A do-while that validates input runs the body even when the data is already invalid. If the body must be skippable, you need a while — or an if wrapped around the do-while."},
+  {t:"Bits come out backwards", b:"Successive division produces the <b>least</b> significant digit first. Printed in order, the binary number reads right-to-left."},
+  {t:"continue in a while loop", b:"In a <b>for</b> loop, continue still runs the updater. In a <b>while</b> loop it jumps straight to the condition — so if your increment sits after the continue, you get an infinite loop."}
+ ],
+ quiz:[
+  {q:"How are do-while loops different from for and while loops?", a:"for and while are pre-test loops: the condition is checked before the body, so the body can run zero times. do-while is a post-test loop: the body executes first and the condition is checked afterwards, so the body always runs at least once."},
+  {q:"Convert a do-while into a while.", a:`do { body } while (cond);
+
+/* equivalent while - run the body once, then loop */
+body
+while (cond) { body }
+
+/* or, with a flag */
+int first = 1;
+while (first || cond) { first = 0; body }`},
+  {q:"When is each loop preferable?", a:"for — a known number of iterations, e.g. walking an array of size n or printing a table from −50 to 40. while — repeat until a condition changes and it may not need to run at all, e.g. reading values until the user enters a negative. do-while — the body must happen at least once before you can decide, e.g. showing a menu, validating input, or successive division where even 0 produces one digit."}
+ ],
+ ex:[
+  {q:"Ask the user for an integer, output its square, repeat until the input is less than or equal to 0.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n;
+
+    do {
+        printf("Enter an integer: ");
+        scanf("%i", &n);
+
+        if (n > 0)
+            printf("%i squared is %i\\n", n, n * n);
+
+    } while (n > 0);
+
+    printf("Done.\\n");
+    return 0;
+}`,
+   note:"The <code>if</code> inside stops it printing \"0 squared is 0\" on the quitting input. This is exactly the \"why might translating a while into a do-while need an if?\" question from Lesson 9."},
+  {q:"Using a loop (not %o), take a positive integer n and display the polynomial for its octal representation. For n = 157: 157 = + (5 * 8^0) + (3 * 8^1) + (2 * 8^2). Then wrap it in a loop that asks for n and exits on a negative.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n;
+
+    printf("Enter n (negative to quit): ");
+    scanf("%i", &n);
+
+    while (n >= 0) {
+        int value = n;
+        int power = 0;
+
+        printf("%i = ", n);
+        do {
+            int digit = value % 8;
+            value     = value / 8;
+
+            printf("+ (%i * 8^%i) ", digit, power);
+            power++;
+
+        } while (value > 0);
+        printf("\\n");
+
+        printf("Enter n (negative to quit): ");
+        scanf("%i", &n);
+    }
+
+    return 0;
+}`,
+   note:"Copy n into <code>value</code> before destroying it, so you can still print the original. A do-while is the right loop here: n = 0 must still print one term."},
+  {q:"Modify the above to display the hexadecimal expansion instead (all displayed numbers still in decimal).",
+   sol:`/* identical, with 8 replaced by 16 */
+int value = n, power = 0;
+
+printf("%i = ", n);
+do {
+    int digit = value % 16;
+    value     = value / 16;
+
+    printf("+ (%i * 16^%i) ", digit, power);
+    power++;
+
+} while (value > 0);
+printf("\\n");`,
+   note:"Only the base changes. Which tells you the next exercise is going to ask you to make it a variable."},
+  {q:"Challenge. Also read an integer base b > 1 from the user, and display the base-b expansion of n.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, b;
+
+    printf("Enter n: ");            scanf("%i", &n);
+    printf("Enter base b (>1): ");  scanf("%i", &b);
+
+    int value = n;
+    int power = 0;
+
+    printf("%i = ", n);
+    do {
+        int digit = value % b;
+        value     = value / b;
+
+        printf("+ (%i * %i^%i) ", digit, b, power);
+        power++;
+
+    } while (value > 0);
+    printf("\\n");
+
+    return 0;
+}`,
+   note:"The general version. Note that <code>b</code> must be validated as > 1 — with b = 1 the division never shrinks value and you loop forever."}
+ ]},
+
+{n:9, mod:"Module 2", title:"If Statements", gist:"if, if-else, else-if chains, nested ifs, switch, and the ternary operator.",
+ points:[
+  "<code>if (expr) { ... }</code> runs the block when expr is true (nonzero). <code>else</code> gives the alternative. <code>else if</code> chains several mutually exclusive tests.",
+  "An <b>else-if chain stops at the first true test</b> — later conditions are never evaluated. Order them from most specific to least.",
+  "<b>Nested ifs</b>: an if inside another if's block. Indentation is for you; only braces decide structure.",
+  "<b>switch</b> is like an else-if chain, but the item tested must be a variable of type <b>int</b> or <b>char</b>. Each case needs a <code>break</code> or execution falls through to the next case.",
+  "<b>Ternary</b>: <code>cond ? valueIfTrue : valueIfFalse</code> — a compact if-else that produces a value."
+ ],
+ code:{label:"Nested ifs — the restaurant example from the lesson", src:`_Bool isHungry  = 1;  // true
+_Bool isThirsty = 1;  // true
+_Bool isSleepy  = 0;  // false
+
+if ( isHungry ) {
+    printf("Ordering manty \\n");
+    if ( isThirsty ) {
+       printf("Ordering pot of hot tea \\n");
+    } else {
+       printf("Ordering cup of water \\n");
+    }
+} else {
+    if ( isSleepy ) {
+       printf("Ordering black coffee \\n");
+    }
+    printf("Ordering baursaki \\n");
+}`, out:"Ordering manty\nOrdering pot of hot tea", outnote:"isHungry is true so the else branch is skipped entirely — baursaki is never ordered no matter what isSleepy is. Then the inner if sees isThirsty true and picks tea."},
+ traps:[
+  {t:"= instead of ==", b:"<code>if (x = 0)</code> assigns and is false; <code>if (x = 5)</code> assigns and is always true. It compiles silently."},
+  {t:"Dangling else", b:"An <code>else</code> binds to the <b>nearest unmatched if</b>, regardless of how you indented it. Always use braces on nested ifs."},
+  {t:"Missing break in switch", b:"Without <code>break</code>, control falls through into the following cases and runs them too. Sometimes deliberate; usually a bug."},
+  {t:"switch only takes int or char", b:"You cannot switch on a double or a string in C."},
+  {t:"Ranges need two tests", b:"<code>if (0 &lt; x &lt; 10)</code> is legal C and always true: it computes <code>(0 &lt; x)</code> → 0 or 1, then compares that to 10. Write <code>if (x &gt; 0 &amp;&amp; x &lt; 10)</code>."}
+ ],
+ quiz:[
+  {q:"When translating a while loop into a do-while, why might we need an if statement? Give an example.", a:"Because a do-while always executes its body once, while a while may execute it zero times. To preserve behaviour you guard the do-while with an if testing the same condition: <code>if (cond) { do { body } while (cond); }</code>. Example: a loop that squares user input until a non-positive number is entered — as a bare do-while it would print \"0 squared is 0\" for the very input that was meant to quit, so an if inside the body suppresses that."},
+  {q:"Answer the nested-if question from the video.", a:"With isHungry = 1 and isThirsty = 1, the output is \"Ordering manty\" then \"Ordering pot of hot tea\". The whole else branch, including baursaki, is unreachable while isHungry is true — so isSleepy has no effect at all."},
+  {q:"Where might a switch statement be useful?", a:"When one int or char variable selects among several fixed, discrete options: a menu choice ('a', 'b', 'c'), a day-of-week number, an operator character in a calculator, a state code. It reads far more cleanly than a long else-if chain of equality tests."},
+  {q:"Where is the ternary operator useful?", a:"When you need a value rather than a branch, and the two alternatives are tiny: <code>max = (a > b) ? a : b;</code>, or inline in a printf, <code>printf(\"%i item%s\\n\", n, (n == 1) ? \"\" : \"s\");</code>. Anything longer belongs in a real if-else."}
+ ],
+ ex:[
+  {q:"Read a final course grade percentage and output the letter grade.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double pct;
+    printf("Enter final percentage: ");
+    scanf("%lf", &pct);
+
+    if (pct < 0.0 || pct > 100.0) {
+        printf("Invalid percentage.\\n");
+        return 1;
+    }
+
+    if      (pct >= 90.0) printf("A\\n");
+    else if (pct >= 80.0) printf("B\\n");
+    else if (pct >= 70.0) printf("C\\n");
+    else if (pct >= 60.0) printf("D\\n");
+    else                  printf("F\\n");
+
+    return 0;
+}`,
+   note:"Because the chain stops at the first true test, you only need the lower bound on each line — no <code>&amp;&amp; pct &lt; 90</code> anywhere. Order matters: go highest to lowest, or everything above 60 prints D."},
+  {q:"Take an integer n and print all integers between 2 and n−1 that divide it evenly. For n = 100: 2, 4, 5, 10, 20, 25, 50.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    printf("Enter n: ");
+    scanf("%i", &n);
+
+    for (i = 2; i <= n - 1; i++) {
+        if (n % i == 0)
+            printf("%i ", i);
+    }
+    printf("\\n");
+
+    return 0;
+}`,
+   note:"<code>n % i == 0</code> is the divides-evenly test, and it's the workhorse of half the exam questions on this topic. The range excludes n itself, hence <code>i &lt;= n-1</code>."},
+  {q:"Read an integer d between 1 and 366 (day of year, 2016). If outside the range, print an error and quit. Otherwise print the day of week, month name and day number — e.g. d = 100 gives \"It is Saturday, April 9\".",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int d;
+    printf("Enter day of year (1-366): ");
+    scanf("%i", &d);
+
+    if (d < 1 || d > 366) {
+        printf("Error: day out of range.\\n");
+        return 1;
+    }
+
+    /* 2016 is a leap year; 1 Jan 2016 was a Friday */
+    int dayLen[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
+
+    int month = 0;
+    int rest  = d;
+    while (rest > dayLen[month]) {
+        rest  = rest - dayLen[month];
+        month++;
+    }
+    /* rest is now the day within the month, month is 0-based */
+
+    int weekday = (d + 4) % 7;   /* 0 = Sunday ... 4 = Thursday */
+
+    printf("It is ");
+    switch (weekday) {
+        case 0: printf("Sunday");    break;
+        case 1: printf("Monday");    break;
+        case 2: printf("Tuesday");   break;
+        case 3: printf("Wednesday"); break;
+        case 4: printf("Thursday");  break;
+        case 5: printf("Friday");    break;
+        case 6: printf("Saturday");  break;
+    }
+
+    switch (month) {
+        case  0: printf(", January");   break;
+        case  1: printf(", February");  break;
+        case  2: printf(", March");     break;
+        case  3: printf(", April");     break;
+        case  4: printf(", May");       break;
+        case  5: printf(", June");      break;
+        case  6: printf(", July");      break;
+        case  7: printf(", August");    break;
+        case  8: printf(", September"); break;
+        case  9: printf(", October");   break;
+        case 10: printf(", November");  break;
+        case 11: printf(", December");  break;
+    }
+
+    printf(" %i\\n", rest);
+    return 0;
+}`,
+   note:"Three techniques in one: range validation with an early <code>return 1</code>, subtracting month lengths in a while loop to convert day-of-year to month+day, and switch for the names. Check the weekday offset against a known date before trusting it."}
+ ]},
+
+{n:10, mod:"Module 2", title:"Formatted I/O", gist:"getchar and putchar, printf/scanf in detail, field widths and precision, reading strings.",
+ points:[
+  "All input and output in C is done with <b>function calls</b>, and they need <code>#include &lt;stdio.h&gt;</code>.",
+  "<b>putchar(c)</b> writes a single character; <b>getchar()</b> reads and returns a single character. Lighter and more precise than printf/scanf when you're working character by character.",
+  "Format specifier anatomy: <code>%</code>, optional <b>flag</b> (<code>-</code> left-align), optional <b>width</b>, optional <b>.precision</b>, then the conversion character. <code>%-10.3f</code> = left-aligned, at least 10 wide, 3 decimal places.",
+  "Width is a <b>minimum</b>, never a maximum — a value too big for the field just overflows it, it is not truncated.",
+  "For <code>%f</code> the precision is the number of decimal places. The default is 6.",
+  "<b>Strings</b> are stored in char arrays. <code>scanf(\"%s\", name)</code> takes <b>no &amp;</b> — an array name is already an address.",
+  "<code>%s</code> in scanf reads <b>only up to whitespace</b>, which it treats as a separator. That's how it splits input into separate words."
+ ],
+ traps:[
+  {t:"No & on a string", b:"<code>scanf(\"%s\", &amp;name)</code> is wrong for a char array. Every other basic type needs the &amp;; a string does not."},
+  {t:"%s stops at whitespace", b:"Typing \"Almaty City\" into one <code>%s</code> stores only \"Almaty\". \"City\" stays in the buffer and lands in your next scanf."},
+  {t:"getchar returns an int", b:"Declare it as <code>int c = getchar();</code>, not char — it must be able to return EOF, which is not a character value."},
+  {t:"The leftover newline", b:"After <code>scanf(\"%i\", &amp;n)</code> the Enter key is still in the buffer, so a following <code>getchar()</code> or <code>%c</code> grabs that newline instead of real input."},
+  {t:"Width doesn't truncate", b:"<code>printf(\"%3i\", 123456)</code> prints all six digits. It pads short values; it never cuts long ones."}
+ ],
+ quiz:[
+  {q:"Why use getchar and putchar when we have scanf and printf?", a:"They are simpler and more predictable when you're processing input one character at a time — counting letters, converting case, measuring word lengths. printf/scanf carry a whole format-parsing machine you don't need, and scanf's whitespace handling actively gets in the way when the whitespace itself is the data you care about."},
+  {q:"Why is it useful that %s in scanf reads only up to whitespace?", a:"It gives you free tokenisation: each call hands back exactly one word, so reading a sequence of words takes a loop and nothing else. If %s swallowed everything up to the newline, you would have to split the string yourself. It also means several values can be read from one line with one scanf."}
+ ],
+ ex:[
+  {q:"Prompt the user for some text, then output the number of occurrences of the letter 'a'.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int c;
+    int count = 0;
+
+    printf("Enter some text, then press Enter:\\n");
+
+    while ((c = getchar()) != '\\n' && c != EOF) {
+        if (c == 'a')
+            count++;
+    }
+
+    printf("The letter 'a' appears %i times.\\n", count);
+    return 0;
+}`,
+   note:"<code>(c = getchar()) != '\\n'</code> assigns and tests in one expression — the parentheses are required, because <code>!=</code> binds tighter than <code>=</code>. Count <code>'A'</code> too if the question says \"the letter a\" rather than lowercase a."},
+  {q:"Prompt for text and output it with all lowercase letters converted to uppercase; everything else unchanged. Hint: use ASCII values.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int c;
+
+    printf("Enter some text:\\n");
+
+    while ((c = getchar()) != '\\n' && c != EOF) {
+        if (c >= 'a' && c <= 'z')
+            putchar(c - 'a' + 'A');
+        else
+            putchar(c);
+    }
+    putchar('\\n');
+
+    return 0;
+}`,
+   note:"<code>c - 'a' + 'A'</code> is the standard shift, and it works because the alphabet is contiguous in ASCII. <code>'a'</code> is 97, <code>'A'</code> is 65, so the gap is exactly 32 — but write it with the letters, not the number 32."},
+  {q:"Prompt for some words, then output the length of each word. Words may be separated by more than one whitespace character. Then extend it to output the length of the longest word.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int c;
+    int len = 0, longest = 0;
+
+    printf("Enter some words:\\n");
+
+    while ((c = getchar()) != '\\n' && c != EOF) {
+
+        if (c == ' ' || c == '\\t') {
+            if (len > 0) {                   /* a word just ended */
+                printf("Word length: %i\\n", len);
+                if (len > longest) longest = len;
+                len = 0;
+            }
+        } else {
+            len++;
+        }
+    }
+
+    if (len > 0) {                           /* last word, no trailing space */
+        printf("Word length: %i\\n", len);
+        if (len > longest) longest = len;
+    }
+
+    printf("Longest word: %i\\n", longest);
+    return 0;
+}`,
+   note:"Two things make this exercise hard and both are marked: the <code>if (len &gt; 0)</code> guard, which stops repeated spaces printing zero-length words, and the flush after the loop, which catches the final word when the line doesn't end in a space."}
+ ]},
+
+{n:11, mod:"Module 2", title:"File I/O", gist:"fopen, fclose, fprintf, fscanf, getc, putc, feof and EOF.",
+ points:[
+  "Every console function has a file twin: printf→<b>fprintf</b>, scanf→<b>fscanf</b>, putchar→<b>putc</b>, getchar→<b>getc</b>. The file version takes the FILE pointer as an extra argument.",
+  "Declare with <code>FILE *file;</code> and open with <code>file = fopen(\"name.txt\", \"w\");</code>. Modes: <b>\"r\"</b> read, <b>\"w\"</b> write (creates, and <b>wipes</b> an existing file), <b>\"a\"</b> append.",
+  "<b>Always check <code>if (file == NULL)</code></b> right after opening, print a message and <code>return 1;</code>. This is expected in every answer.",
+  "<b>fclose(file)</b> when you're done. Without it, buffered output can be lost.",
+  "<code>fprintf(file, ...)</code> puts the FILE pointer first, then the format string. <code>fscanf(file, ...)</code> likewise — and still needs <code>&amp;</code> on the variables.",
+  "<b>feof(file)</b> returns true once you've read past the end. <b>EOF</b> is the constant returned by getc at end of file.",
+  "Exam list: <code>getchar(), putchar(), scanf(), printf()</code> — <code>fopen(), fclose(), getc(), putc(), fscanf(), fprintf(), feof(), EOF</code> — output specifiers <code>%i %d %o %x %f %e %g %c %s</code> — input specifiers <code>%i %f %lf %c %s</code>."
+ ],
+ code:{label:"File I/O template — from the lesson", src:`#include <stdio.h>
+
+int main() {
+
+  FILE *file;
+  file = fopen("datafile.txt", "w");
+
+  if (file == NULL) {
+    printf("Problem opening file.");
+    return 1;
+  }
+
+  printf("File opened successfully.");
+
+  fprintf(file, "Hello there!");
+
+  fclose(file);
+
+  return 0;
+}`},
+ traps:[
+  {t:"\"w\" destroys the file", b:"Opening an existing file with <code>\"w\"</code> truncates it to nothing immediately. Use <code>\"a\"</code> to add to the end."},
+  {t:"feof lags by one read", b:"feof only becomes true <i>after</i> a read has already failed, so a plain <code>while (!feof(f))</code> loop processes the last record twice. The lesson's fix is the <code>fscanf(...); if (feof(infile)) break;</code> check right after the read."},
+  {t:"Argument order", b:"<code>fprintf(file, \"%i\", x)</code> — file first. Writing <code>fprintf(\"%i\", file, x)</code> is a classic slip under time pressure."},
+  {t:"Forgetting & in fscanf", b:"Same rule as scanf: <code>&amp;</code> on every basic type, none on a char array."}
+ ],
+ quiz:[],
+ ex:[
+  {q:"Copy the contents of an input file to another file, character by character. Both filenames come from the user at the start.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    char inName[81], outName[81];
+    FILE *in;
+    FILE *out;
+    int c;
+
+    printf("Input file name:  ");   scanf("%s", inName);
+    printf("Output file name: ");   scanf("%s", outName);
+
+    in  = fopen(inName,  "r");
+    out = fopen(outName, "w");
+
+    if (in == NULL || out == NULL) {
+        printf("Problem opening files.\\n");
+        return 1;
+    }
+
+    while ((c = getc(in)) != EOF)
+        putc(c, out);
+
+    fclose(in);
+    fclose(out);
+
+    printf("Copy complete.\\n");
+    return 0;
+}`,
+   note:"No <code>&amp;</code> on <code>inName</code> — it's already an array. Note the argument order flips between the two calls: <code>getc(in)</code> but <code>putc(c, out)</code>."},
+  {q:"Substitute the words found in values.txt for the '$' characters found in story.txt, printing the result to the console.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    FILE *story  = fopen("story.txt",  "r");
+    FILE *values = fopen("values.txt", "r");
+
+    if (story == NULL || values == NULL) {
+        printf("Problem opening files.\\n");
+        return 1;
+    }
+
+    int c;
+    char word[81];
+
+    while ((c = getc(story)) != EOF) {
+        if (c == '$') {
+            if (fscanf(values, "%s", word) == 1)
+                printf("%s", word);
+            else
+                printf("$");        /* ran out of words */
+        } else {
+            putchar(c);
+        }
+    }
+
+    fclose(story);
+    fclose(values);
+    return 0;
+}`,
+   note:"Read the story character by character, but the substitutions word by word — <code>%s</code> in fscanf conveniently stops at whitespace, so each '$' pulls exactly one word."},
+  {q:"Extend the story generator so the result is written to a file, with the output filename entered by the user at the start.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    char outName[81];
+    printf("Output file name: ");
+    scanf("%s", outName);
+
+    FILE *story  = fopen("story.txt",  "r");
+    FILE *values = fopen("values.txt", "r");
+    FILE *out    = fopen(outName,      "w");
+
+    if (story == NULL || values == NULL || out == NULL) {
+        printf("Problem opening files.\\n");
+        return 1;
+    }
+
+    int c;
+    char word[81];
+
+    while ((c = getc(story)) != EOF) {
+        if (c == '$') {
+            if (fscanf(values, "%s", word) == 1)
+                fprintf(out, "%s", word);
+            else
+                putc('$', out);
+        } else {
+            putc(c, out);
+        }
+    }
+
+    fclose(story);
+    fclose(values);
+    fclose(out);
+
+    printf("Story written to %s\\n", outName);
+    return 0;
+}`,
+   note:"Same program with <code>printf</code>→<code>fprintf(out,...)</code> and <code>putchar</code>→<code>putc(...,out)</code>. Three opens means three NULL checks and three closes."}
+ ]},
+
+{n:12, mod:"Module 3", title:"Intro to Arrays", gist:"Declaring, indexing and initialising arrays, and how they sit in memory.",
+ points:[
+  "<code>int scores[10];</code> declares ten ints in one contiguous block. Valid indices are <b>0 to 9</b>.",
+  "Index from <b>0</b>. The last element of an array of size n is <code>a[n-1]</code>.",
+  "<b>Array initialiser</b>: <code>int a[5] = {3, 1, 4, 1, 5};</code>. Give fewer values and the rest become 0; give none of the size — <code>int a[] = {1,2,3};</code> — and C counts them for you.",
+  "The elements sit next to each other in memory, which is why indexing is instant: the address is start + index × element size.",
+  "C does <b>not</b> check bounds. <code>a[10]</code> on a size-10 array reads or writes whatever memory happens to be next door — no error, just corruption."
+ ],
+ traps:[
+  {t:"Off-by-one at the end", b:"<code>for (i = 0; i &lt;= n; i++)</code> touches <code>a[n]</code>, one past the end. Use <code>i &lt; n</code>."},
+  {t:"No bounds checking", b:"Reading <code>a[-1]</code> or <code>a[100]</code> compiles and runs. It may even look fine. This is the single biggest source of C bugs."},
+  {t:"Arrays don't assign or compare", b:"<code>a = b;</code> and <code>if (a == b)</code> do not copy or compare contents. You need a loop."},
+  {t:"Initialiser only at declaration", b:"<code>int a[3]; a = {1,2,3};</code> is a syntax error. The brace form works only on the declaration line."}
+ ],
+ quiz:[
+  {q:"Think of practical examples where an array is useful.", a:"Exam scores for a class, daily temperatures for a month, pixel values in an image row, a histogram's bucket counts, the digits of a big number, a deck of cards, the months' lengths for a date calculation. Any time you'd otherwise name variables score1, score2, score3... you want an array."},
+  {q:"You have a sorted array of doubles and want to insert a new value keeping it sorted, without losing old values. How? What problems appear?", a:"Walk from the start until you find the first element larger than the new value — that's the insertion position. Then shift every element from the end down to that position one slot to the right (iterate backwards so you don't overwrite as you go), and drop the new value in. The problems: the array has a fixed size, so there must be a spare slot at the end or the insert is impossible; you must track how many slots are actually in use separately from the declared size; and each insert costs up to n shifts, so building a sorted array this way is slow for large n."}
+ ],
+ ex:[
+  {q:"Store the first ten factorial numbers (1, 1, 2, 6, 24, 120, 720, ...) in an integer array.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int fact[10];
+    int i;
+
+    fact[0] = 1;                       /* 0! = 1 by definition */
+    for (i = 1; i < 10; i++)
+        fact[i] = fact[i-1] * i;       /* i! = (i-1)! * i      */
+
+    for (i = 0; i < 10; i++)
+        printf("%i! = %i\\n", i, fact[i]);
+
+    return 0;
+}`,
+   note:"Building each element from the previous one avoids a nested loop entirely — the same carried-value trick as the Taylor series exercises. Beware: 13! already overflows a 32-bit int."},
+  {q:"Declare an integer array of size 20 and fill it with random numbers between 50 and 100 using rand() from stdlib.h. Print all values in a second loop.",
+   sol:`#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[20];
+    int i;
+
+    srand(time(NULL));                 /* different numbers each run */
+
+    for (i = 0; i < 20; i++)
+        a[i] = 50 + rand() % 51;       /* 0..50, shifted to 50..100 */
+
+    for (i = 0; i < 20; i++)
+        printf("%i ", a[i]);
+    printf("\\n");
+
+    return 0;
+}`,
+   note:"For an inclusive range lo..hi the formula is <code>lo + rand() % (hi - lo + 1)</code>. Here that's <code>50 + rand() % 51</code> — using 50 instead of 51 silently loses the value 100."},
+  {q:"Extend the previous program to find the minimum, maximum and average of the array values and print those too.",
+   sol:`#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[20];
+    int i;
+
+    srand(time(NULL));
+    for (i = 0; i < 20; i++)
+        a[i] = 50 + rand() % 51;
+
+    int min = a[0];
+    int max = a[0];
+    int sum = 0;
+
+    for (i = 0; i < 20; i++) {
+        if (a[i] < min) min = a[i];
+        if (a[i] > max) max = a[i];
+        sum = sum + a[i];
+        printf("%i ", a[i]);
+    }
+    printf("\\n");
+
+    double avg = (double)sum / 20;
+
+    printf("Min: %i\\n", min);
+    printf("Max: %i\\n", max);
+    printf("Avg: %.2f\\n", avg);
+
+    return 0;
+}`,
+   note:"Seed min and max with <code>a[0]</code>, never with 0 — a min initialised to 0 can never be beaten by values of 50 and up. And the average needs <code>(double)sum / 20</code>: plain <code>sum / 20</code> is integer division and throws away the decimals."}
+ ]},
+
+{n:13, mod:"Module 3", title:"More Arrays", gist:"Strings as char arrays, variable array sizes, and multi-dimensional arrays.",
+ points:[
+  "A <b>string</b> in C is an array of chars terminated by the <b>null character</b> <code>'\\0'</code>. <code>char name[81]</code> holds up to 80 real characters plus the terminator.",
+  "An array's size can be given by a <b>variable</b> at declaration: <code>int R = 3; int a[R];</code>. This is not the same as resizing later — <b>an array's size cannot change after it is created</b>.",
+  "<b>Multi-dimensional arrays</b> are arrays of arrays: <code>int a[R][C];</code> is R rows by C columns, accessed as <code>a[row][col]</code>.",
+  "To walk a 2-D array you need nested loops: outer over rows i, inner over columns j.",
+  "Printing a matrix: print the whole inner row with <code>printf(\"%5d\", a[i][j])</code>, then a single <code>printf(\"\\n\")</code> <b>after</b> the inner loop closes."
+ ],
+ code:{label:"Generic R x C matrix — from the lesson", src:`int R = 3, C = 4;
+int a[R][C];
+
+int i, j, val = 100;
+
+/* set matrix elements */
+for (i = 0; i < R; i++) {
+  for (j = 0; j < C; j++) {
+    a[i][j] = val;
+    val++;
+  }
+}
+
+/* print matrix elements */
+for (i = 0; i < R; i++) {
+  for (j = 0; j < C; j++) {
+    printf("%5d", a[i][j]);
+  }
+  printf("\\n");
+}`},
+ traps:[
+  {t:"Newline in the wrong place", b:"Put <code>printf(\"\\n\")</code> inside the inner loop and you get one number per line. It belongs between the two closing braces."},
+  {t:"a[i,j] is not a thing", b:"C wants <code>a[i][j]</code>. <code>a[i,j]</code> compiles as the comma operator and does something else entirely."},
+  {t:"Room for the null terminator", b:"A string of n characters needs an array of at least n+1. Forgetting <code>'\\0'</code> means printf runs off the end reading garbage."},
+  {t:"Transpose dimensions flip", b:"Transposing an R×C matrix gives a <b>C×R</b> matrix. Declaring the result as R×C is wrong unless the matrix is square."},
+  {t:"Rows and columns, not x and y", b:"<code>a[i][j]</code> is row i, column j. Mixing the order up is the most common 2-D array mistake in exams."}
+ ],
+ quiz:[
+  {q:"Why can't an array be resized after creation?", a:"Its elements occupy one contiguous block of memory, and the compiler fixed that block's location and length when the array was created. The memory immediately after it has very likely been given to something else, so there is simply nowhere to grow into. Making the array bigger would mean finding a new, larger block elsewhere and copying everything across — which the language will not do behind your back."},
+  {q:"How would you handle needing a bigger array than you declared?", a:"Declare a new, larger array and copy the old contents across with a loop, then work with the new one. The usual strategy is to double the size each time so the copying doesn't dominate. (The proper tool is dynamic allocation with malloc and realloc — Lesson 25 — but the copy-into-a-bigger-array idea is the same.)"},
+  {q:"Where else are multi-dimensional arrays useful, other than matrices?", a:"Game boards — chess, minesweeper, tic-tac-toe. Images, where a[row][col] is a pixel. Spreadsheet-style tables. Distance tables between cities. A calendar as weeks × days. Seat maps. Anything naturally laid out as a grid."}
+ ],
+ ex:[
+  {q:"Using nested loops, create a 12 x 12 multiplication table where element i,j holds i*j. Use a second pair of nested loops to print it.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int table[12][12];
+    int i, j;
+
+    for (i = 0; i < 12; i++)
+        for (j = 0; j < 12; j++)
+            table[i][j] = (i + 1) * (j + 1);
+
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 12; j++)
+            printf("%5i", table[i][j]);
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+   note:"Indices run 0..11 but the table should show 1×1 through 12×12, hence <code>(i+1)*(j+1)</code>. <code>%5i</code> keeps the columns aligned up to 144."},
+  {q:"Starting from the R x C matrix code, transpose matrix a into a new matrix b of dimensions C x R, add 25 to each element, and print b.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int R = 3, C = 4;
+    int a[R][C];
+    int b[C][R];              /* note: C rows, R columns */
+    int i, j, val = 100;
+
+    for (i = 0; i < R; i++)
+        for (j = 0; j < C; j++)
+            a[i][j] = val++;
+
+    /* transpose and add 25 */
+    for (i = 0; i < R; i++)
+        for (j = 0; j < C; j++)
+            b[j][i] = a[i][j] + 25;
+
+    for (i = 0; i < C; i++) {
+        for (j = 0; j < R; j++)
+            printf("%5d", b[i][j]);
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+   note:"The whole exercise is the single line <code>b[j][i] = a[i][j] + 25;</code> — indices swapped on the left. Then the printing loops must use C rows and R columns, not the other way round."},
+  {q:"Find the maximum element in a two-dimensional matrix and print the row and column where it is.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int R = 3, C = 4;
+    int a[3][4] = {
+        { 5, 17,  3,  9},
+        {42,  8, 23, 11},
+        { 1, 39, 20,  7}
+    };
+
+    int i, j;
+    int max = a[0][0];
+    int maxRow = 0, maxCol = 0;
+
+    for (i = 0; i < R; i++) {
+        for (j = 0; j < C; j++) {
+            if (a[i][j] > max) {
+                max    = a[i][j];
+                maxRow = i;
+                maxCol = j;
+            }
+        }
+    }
+
+    printf("Maximum %i found at row %i, column %i\\n", max, maxRow, maxCol);
+    return 0;
+}`,
+   note:"Update all three variables together inside the same if block. Updating max but forgetting maxRow/maxCol is the usual half-mark answer."},
+  {q:"Create and initialise two 3 x 3 matrices, multiply them, and print the resulting 3 x 3 matrix.",
+   sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+    int b[3][3] = {{9,8,7},{6,5,4},{3,2,1}};
+    int c[3][3];
+
+    int i, j, k;
+
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            c[i][j] = 0;                       /* must reset */
+            for (k = 0; k < 3; k++)
+                c[i][j] += a[i][k] * b[k][j];
+        }
+    }
+
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++)
+            printf("%6i", c[i][j]);
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+   note:"Three nested loops, and the index pattern is the thing to memorise: <code>a[i][k] * b[k][j]</code> — k is the one that runs, and it appears second on a and first on b. Setting <code>c[i][j] = 0</code> before the k loop is essential."}
+ ]}
+];
+
+/* ===================== TRACE / MCQ PRACTICE BANK ===================== */
+const BANK = [
+{L:3, type:"mcq", q:"A program compiles, runs to completion, and reports that the average of 4 and 6 is 5.5 — but the correct answer for this data set should be 5. What kind of error is this?",
+ choices:["A syntax error","A runtime error","A logical error","A linker error"], correct:2,
+ why:"It compiled (so not syntax) and it ran to the end without crashing (so not runtime). The program is simply doing the wrong thing. Logical errors are the ones no tool catches for you."},
+
+{L:5, type:"out", q:"What does this print?", code:`int a = 7, b = 2;
+double r = a / b;
+printf("%.2f", r);`, ans:"3.00",
+ why:"Both a and b are ints, so a/b is integer division = 3, and the truncation is already done before the value is assigned to a double. Making it 3.5 needs (double)a / b."},
+
+{L:5, type:"out", q:"What does this print?", code:`printf("%i", 2 + 7 % 3);`, ans:"3",
+ why:"% has the same precedence as * and /, so it binds tighter than +. 7 % 3 is 1, then 2 + 1 = 3."},
+
+{L:5, type:"out", q:"What does this print?", code:`printf("%i %i", (int)3.99, (int)-3.99);`, ans:"3 -3",
+ why:"Casting a double to an int truncates at the decimal point — toward zero — it never rounds. So 3.99 becomes 3 and -3.99 becomes -3, not -4."},
+
+{L:5, type:"mcq", q:"Which expression correctly computes the real-valued average of two ints x and y?",
+ choices:["(double)(x + y) / 2","(double)((x + y) / 2)","(x + y) / 2","(x + y) / (double)2 / 2"], correct:0,
+ why:"Option A casts the sum to double first, so the division is floating-point. Option B does the int division first and then casts an already-truncated result. Option C is pure int division."},
+
+{L:5, type:"out", q:"What does this print?", code:`int x = 5;
+x += 3;
+x *= 2;
+x %= 5;
+printf("%i", x);`, ans:"1",
+ why:"Step by step: x = 5, then 5+3 = 8, then 8*2 = 16, then 16 % 5 = 1."},
+
+{L:4, type:"mcq", q:"You have double temp; and want to read a value into it from the user. Which line is correct?",
+ choices:["scanf(\"%f\", &temp);","scanf(\"%lf\", &temp);","scanf(\"%lf\", temp);","scanf(\"%d\", &temp);"], correct:1,
+ why:"A double needs %lf on INPUT, and scanf needs the address, so the & is required. %f on input is for float only — using it on a double silently corrupts the value."},
+
+{L:4, type:"out", q:"What does this print?", code:`_Bool flag = 42;
+printf("%i", flag);`, ans:"1",
+ why:"A _Bool stores only 0 or 1. Assigning any nonzero value stores 1. There is no format specifier that prints \"true\"."},
+
+{L:4, type:"out", q:"What does this print?", code:`printf("%i %i", 010, 0x10);`, ans:"8 16",
+ why:"A leading 0 in the source makes an octal literal, so 010 is 8. A leading 0x makes it hex, so 0x10 is 16. Neither is ten."},
+
+{L:6, type:"out", q:"How many lines does this print?", code:`int i;
+for (i = 0; i < 10; i++);
+{
+    printf("hello\\n");
+}`, ans:"1",
+ why:"The semicolon right after the for header is the entire loop body. The loop spins ten times doing nothing, then the block runs once. No warning, no error."},
+
+{L:6, type:"out", q:"What does this print?", code:`int i;
+for (i = 10; i < 5; i++) {
+    printf("x");
+}
+printf("done");`, ans:"done",
+ why:"The condition is checked before the first iteration and it's already false, so the body runs zero times. A for loop may never enter its body."},
+
+{L:6, type:"out", q:"What does this print?", code:`int i, j;
+for (i = 1; i <= 3; i++) {
+    for (j = 1; j <= 2; j++) {
+        printf("%i%i ", i, j);
+    }
+}`, ans:"11 12 21 22 31 32",
+ why:"The inner loop runs completely for every single iteration of the outer loop, so j cycles 1,2 three times while i advances once each cycle. 3 x 2 = 6 items."},
+
+{L:6, type:"out", q:"What does this print?", code:`int i, val = 1;
+for (i = 1; i <= 4; i++) {
+    val = val * 2;
+}
+printf("%i", val);`, ans:"16",
+ why:"val doubles four times: 2, 4, 8, 16. This is the powers-of-2 pattern from the Lesson 6 exercises."},
+
+{L:7, type:"out", q:"What does this print?", code:`int n = 27, count = 0;
+while (n > 0) {
+    n = n / 2;
+    count++;
+}
+printf("%i", count);`, ans:"5",
+ why:"Integer division halves and truncates: 27→13→6→3→1→0. That's five iterations. This is the integer-log-base-2 idea, counted one higher."},
+
+{L:7, type:"mcq", q:"In the sentinel input pattern from Lesson 7, why does the scanf appear twice?",
+ choices:["Once for the prompt and once for the value","To read the value before the first condition check, and to refresh it before every later check","Because scanf fails the first time","To clear the newline from the buffer"], correct:1,
+ why:"A while loop tests before the body runs, so the variable must already hold something on the first test. The second read at the bottom of the body supplies the next test's value. Drop either one and you get an uninitialised test or an infinite loop."},
+
+{L:8, type:"out", q:"What does this print?", code:`int i = 10;
+do {
+    printf("%i ", i);
+    i++;
+} while (i < 5);`, ans:"10",
+ why:"A do-while checks its condition AFTER the body, so the body always runs at least once — even though 10 < 5 was never true. This is the whole difference from a while loop."},
+
+{L:8, type:"out", q:"What does this print? (one bit per line, shown here space-separated)", code:`int decNum = 13;
+do {
+    int bit = decNum % 2;
+    decNum  = decNum / 2;
+    printf("%i ", bit);
+} while (decNum > 0);`, ans:"1 0 1 1",
+ why:"Successive division gives the LEAST significant bit first: 13%2=1 (13→6), 6%2=0 (6→3), 3%2=1 (3→1), 1%2=1 (1→0). Read backwards, 1101 = 13."},
+
+{L:8, type:"out", q:"What does this print?", code:`int i;
+for (i = 1; i <= 5; i++) {
+    if (i == 3) continue;
+    if (i == 5) break;
+    printf("%i ", i);
+}`, ans:"1 2 4",
+ why:"continue skips the print for i=3 but the loop goes on. break at i=5 leaves the loop entirely, so 5 is never printed."},
+
+{L:9, type:"out", q:"What does this print?", code:`int x = 5;
+if (x = 0) {
+    printf("zero");
+} else {
+    printf("nonzero");
+}
+printf(" x=%i", x);`, ans:"nonzero x=0",
+ why:"= is assignment, not comparison. x is set to 0, the if tests that 0, which is false, so the else runs — and x has been silently destroyed. Use ==."},
+
+{L:9, type:"out", q:"What does this print?", code:`int score = 95;
+if (score >= 60) printf("D");
+else if (score >= 70) printf("C");
+else if (score >= 80) printf("B");
+else if (score >= 90) printf("A");`, ans:"D",
+ why:"An else-if chain stops at the first true test. 95 >= 60 is true immediately, so the A, B and C branches are unreachable. Order the tests from highest to lowest."},
+
+{L:9, type:"mcq", q:"What does if (0 < x && x < 10) become if you write it as if (0 < x < 10)?",
+ choices:["The same thing","A syntax error","Always true","Always false"], correct:2,
+ why:"(0 < x) evaluates first to 0 or 1, and both 0 and 1 are less than 10 — so the whole expression is always true, whatever x is. C accepts it without complaint. Ranges always need two comparisons joined with &&."},
+
+{L:9, type:"out", q:"What does this print?", code:`int day = 3;
+switch (day) {
+    case 2: printf("Tue ");
+    case 3: printf("Wed ");
+    case 4: printf("Thu ");
+        break;
+    case 5: printf("Fri ");
+}`, ans:"Wed Thu",
+ why:"Control enters at case 3 and falls straight through case 4 because there's no break after Wed. It stops at the break following Thu. Missing breaks are the classic switch bug."},
+
+{L:10, type:"out", q:"What does this print? (use _ to show each space)", code:`printf("[%5i]", 42);
+printf("[%-5i]", 42);
+printf("[%5i]", 1234567);`, ans:"[___42][42___][1234567]",
+ why:"Width is a MINIMUM field size: 42 is padded to 5, the minus flag left-aligns it, and 1234567 simply overflows the field. Width never truncates."},
+
+{L:10, type:"out", q:"What does this print?", code:`printf("%.2f %.0f %f", 3.14159, 2.7, 1.5);`, ans:"3.14 3 1.500000",
+ why:"Precision after the dot is the number of decimal places for %f; %.0f shows none (and rounds); with no precision given the default is 6 decimal places."},
+
+{L:10, type:"mcq", q:"The user types  Almaty City  in response to scanf(\"%s\", town);  What ends up in town?",
+ choices:["\"Almaty City\"","\"Almaty\"","\"Almaty City\" without the space","Nothing — it fails"], correct:1,
+ why:"%s reads only up to whitespace, which it treats as a separator. \"City\" stays in the input buffer and will be picked up by the next scanf — which is usually where the confusing bug shows up."},
+
+{L:10, type:"out", q:"What does this print?", code:`char c = 'd';
+putchar(c - 'a' + 'A');`, ans:"D",
+ why:"'d' - 'a' is 3 (the letter's position in the alphabet), and 'A' + 3 is 'D'. Works because the alphabet is contiguous in ASCII."},
+
+{L:11, type:"mcq", q:"Which line correctly writes the int x to an already-opened file f?",
+ choices:["fprintf(\"%i\", f, x);","fprintf(f, \"%i\", x);","printf(f, \"%i\", x);","fscanf(f, \"%i\", x);"], correct:1,
+ why:"The FILE pointer always comes first, then the format string, then the values. fprintf(f, \"%i\", x) is the only one with the right function and the right argument order."},
+
+{L:11, type:"mcq", q:"You open an existing file that already contains data with fopen(\"log.txt\", \"w\"). What happens to the old contents?",
+ choices:["New data is added at the end","The old contents are erased","fopen returns NULL","The old contents are kept and overwritten from the start"], correct:1,
+ why:"Mode \"w\" truncates the file to zero length the moment it opens. To add to the end you need \"a\". This one destroys people's work in labs constantly."},
+
+{L:11, type:"out", q:"A file holds exactly three records. Roughly what goes wrong with this loop?", code:`while (!feof(infile)) {
+    fscanf(infile, "%s %i", name, &age);
+    printf("%s %i\\n", name, age);
+}`, ans:"the last record prints twice",
+ why:"feof only turns true AFTER a read has already failed, so the loop runs a fourth time; that fscanf fails, leaves name and age unchanged, and the third record prints again. The lesson's fix is to check if (feof(infile)) break; right after the fscanf."},
+
+{L:12, type:"out", q:"What does this print?", code:`int a[5] = {3, 1, 4};
+printf("%i %i %i", a[0], a[3], a[4]);`, ans:"3 0 0",
+ why:"An initialiser with fewer values than the array size fills the remaining elements with 0. Only a[0], a[1] and a[2] were given values."},
+
+{L:12, type:"out", q:"What is the last valid index of  int scores[10];  ?", code:`int scores[10];`, ans:"9",
+ why:"Indices run 0 to n-1. scores[10] is one past the end — C will let you write to it, quietly corrupting whatever is next in memory."},
+
+{L:12, type:"out", q:"What does this print?", code:`int a[4] = {2, 4, 6, 8};
+int i, sum = 0;
+for (i = 0; i < 4; i++)
+    sum += a[i];
+printf("%i %.2f", sum, (double)sum / 4);`, ans:"20 5.00",
+ why:"Sum is 20. The cast to double before dividing gives 5.00 — writing sum/4 would give an int 5 and print garbage through %.2f."},
+
+{L:13, type:"out", q:"What does this print?", code:`int a[2][3] = {{1,2,3},{4,5,6}};
+printf("%i %i", a[1][0], a[0][2]);`, ans:"4 3",
+ why:"a[row][col]. a[1][0] is row 1, column 0 = 4. a[0][2] is row 0, column 2 = 3. Getting row and column the wrong way round is the standard 2-D mistake."},
+
+{L:13, type:"out", q:"How many lines of output does this produce?", code:`int i, j;
+for (i = 0; i < 3; i++) {
+    for (j = 0; j < 4; j++) {
+        printf("%i", i*j);
+        printf("\\n");
+    }
+}`, ans:"12",
+ why:"The newline is INSIDE the inner loop, so every single number goes on its own line: 3 x 4 = 12 lines. Move it between the two closing braces to get 3 rows of 4."},
+
+{L:13, type:"mcq", q:"You transpose a 3 x 5 matrix a into b. What are b's dimensions, and what is the assignment?",
+ choices:["b[3][5], b[i][j] = a[i][j]","b[5][3], b[j][i] = a[i][j]","b[3][5], b[j][i] = a[i][j]","b[5][3], b[i][j] = a[j][i]"], correct:1,
+ why:"Transposing R x C gives C x R, so b is 5 x 3. The assignment swaps the indices on one side: b[j][i] = a[i][j]. (Option D is the same operation written from b's point of view but its loops would have to change too.)"}
+];
+
+/* ============================= MOCK EXAMS =============================
+   Written for this site, modelled on the lesson content and exercises.
+   Not past papers. 60 minutes, closed book, no compiler — same as the real thing.
+   ===================================================================== */
+const EXAMS = [
+{id:"m1a", title:"Mock Midterm 1 — Paper A", mins:60, qs:[
+ {type:"mcq", L:1, q:"Which of these is NOT part of a CPU as listed in Lesson 1?",
+  choices:["Arithmetic Logic Unit","Program Counter","Secondary Storage","Control Unit"], correct:2,
+  why:"Secondary storage (disks, SSDs) is separate hardware, not part of the CPU. The CPU contains the CU, ALU, FPU, registers and the program counter."},
+ {type:"mcq", L:1, q:"Which statement is true?",
+  choices:["Assembly language is portable across CPU families","A compiler translates assembly into machine code","High-level languages are generally portable because compilers exist for different CPUs","Machine code is a high-level language"], correct:2,
+  why:"Assembly and machine code are low-level and CPU-specific, so not portable. An ASSEMBLER does assembly→machine code; a COMPILER does high-level→low-level."},
+ {type:"mcq", L:3, q:"A program runs to the end but prints a wrong total. This is:",
+  choices:["a syntax error","a runtime error","a logical error","a compile error"], correct:2,
+  why:"It compiled and it ran — only the result is wrong. That is a logical error, and no tool catches it for you."},
+ {type:"out", L:5, q:"What is printed?", code:`int a = 17, b = 5;
+printf("%i %i %i", a/b, a%b, a/(double)b > 3.0);`, ans:"3 2 1",
+  why:"17/5 is integer division = 3. 17%5 = 2. The third: 17/5.0 = 3.4, which is greater than 3.0, and a true relational expression has the value 1."},
+ {type:"out", L:5, q:"What is printed?", code:`double x = 1 / 4;
+printf("%.2f", x);`, ans:"0.00",
+  why:"1 and 4 are both ints, so 1/4 evaluates to 0 before it's ever assigned to x. Declaring x as double does not retroactively fix the division. Write 1.0/4."},
+ {type:"out", L:4, q:"What is printed?", code:`char c = 'B';
+printf("%c %i", c, c);`, ans:"B 66",
+  why:"Chars are stored as their ASCII values. %c renders it as a character, %i shows the underlying number. 'A' is 65, so 'B' is 66."},
+ {type:"out", L:6, q:"What is printed?", code:`int i, total = 0;
+for (i = 1; i <= 5; i++) {
+    if (i % 2 == 0) continue;
+    total += i;
+}
+printf("%i", total);`, ans:"9",
+  why:"continue skips the even values, so only 1 + 3 + 5 are added = 9."},
+ {type:"out", L:8, q:"What is printed?", code:`int n = 0;
+do {
+    printf("%i ", n);
+    n--;
+} while (n > 0);`, ans:"0",
+  why:"The body always runs once before the condition is tested. It prints 0, decrements to -1, and then the condition fails. A while loop here would print nothing."},
+ {type:"out", L:9, q:"What is printed?", code:`int a = 1, b = 0;
+if (a && b)      printf("both");
+else if (a || b) printf("one");
+else             printf("neither");`, ans:"one",
+  why:"a && b is 1 && 0 = false. a || b is 1 || 0 = true, so the else-if branch runs and the chain stops there."},
+ {type:"out", L:10, q:"What is printed? (write _ for each space)", code:`printf("[%8.3f]", 3.14159);`, ans:"[___3.142]",
+  why:"Precision 3 rounds to 3.142 (five characters), then width 8 right-pads it with three leading spaces. Width counts the whole rendered value including the decimal point."},
+ {type:"write", L:5, q:"Write a complete C program that reads an integer number of seconds past midnight from the user and prints the time as hh:mm:ss with two digits in each field.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int total;
+    printf("Seconds past midnight: ");
+    scanf("%i", &total);
+
+    int hours   =  total / 3600;
+    int minutes = (total % 3600) / 60;
+    int seconds =  total % 60;
+
+    printf("%02i:%02i:%02i\\n", hours, minutes, seconds);
+    return 0;
+}`,
+  why:"Marks: #include and main (1), scanf with %i and & (1), correct hours/minutes/seconds arithmetic (3), %02i formatting (1). The minutes line is where most people slip — you must take the remainder modulo 3600 BEFORE dividing by 60."},
+ {type:"write", L:12, q:"Write code that declares an int array of size 10, fills it with the squares 1, 4, 9, ..., 100 using a loop, and then prints the largest value and its index.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[10];
+    int i;
+
+    for (i = 0; i < 10; i++)
+        a[i] = (i + 1) * (i + 1);
+
+    int max = a[0];
+    int maxIdx = 0;
+
+    for (i = 0; i < 10; i++) {
+        if (a[i] > max) {
+            max = a[i];
+            maxIdx = i;
+        }
+    }
+
+    printf("Largest: %i at index %i\\n", max, maxIdx);
+    return 0;
+}`,
+  why:"Marks: declaration (1), fill loop with (i+1) squared (2), max initialised from a[0] not 0 (1), index updated inside the same if (1), output (1). Using i < 10 rather than i <= 10 is worth a mark on its own."}
+]},
+
+{id:"m1b", title:"Mock Midterm 1 — Paper B", mins:60, qs:[
+ {type:"mcq", L:2, q:"The three stages of program creation and execution are:",
+  choices:["Write, Run, Debug","Write, Build (compile and link), Run","Compile, Link, Debug","Design, Write, Compile"], correct:1,
+  why:"Straight from Lesson 2. Note that build means compile AND link — linking is what combines multiple files and libraries into one executable."},
+ {type:"mcq", L:4, q:"Which pair of format specifiers is correct for reading a double and printing it?",
+  choices:["scanf %f, printf %lf","scanf %lf, printf %f","scanf %d, printf %f","scanf %lf, printf %lf"], correct:1,
+  why:"Input needs %lf for a double; output takes %f for both floats and doubles. The asymmetry is deliberate and it is examined constantly."},
+ {type:"out", L:5, q:"What is printed?", code:`int x = 10;
+x = x++ + 2;
+printf("%i", x);`, ans:"12",
+  why:"x++ yields the current value 10 and then increments; the assignment writes 10 + 2 = 12 over the top of it. The increment is lost. (Expressions that modify a variable twice are genuinely murky in C — which is exactly why you should never write them.)"},
+ {type:"out", L:5, q:"What is printed?", code:`printf("%i", 100 % 7 * 2);`, ans:"4",
+  why:"% and * have equal precedence and evaluate left to right: (100 % 7) = 2, then 2 * 2 = 4. Not 100 % 14."},
+ {type:"out", L:6, q:"What does this print?", code:`int i, j;
+for (i = 3; i >= 1; i--) {
+    for (j = 0; j < i; j++)
+        printf("*");
+    printf("\\n");
+}`, ans:"***\n**\n*",
+  why:"Row i prints i stars, with i counting down 3, 2, 1. The newline sits between the two closing braces, so one line per outer iteration."},
+ {type:"out", L:7, q:"What is printed?", code:`int n = 1, count = 0;
+while (n < 100) {
+    n = n * 3;
+    count++;
+}
+printf("%i %i", n, count);`, ans:"243 5",
+  why:"n goes 3, 9, 27, 81, 243 — five iterations. The loop exits only after n passes 100, so the final value is 243, not 81."},
+ {type:"out", L:9, q:"What is printed?", code:`int temp = 15;
+if (temp > 30)      printf("hot");
+else if (temp > 20) printf("warm");
+else if (temp > 10) printf("mild");
+else                printf("cold");`, ans:"mild",
+  why:"The chain stops at the first true test. 15 is not > 30 or > 20, but it is > 10."},
+ {type:"out", L:13, q:"What is printed?", code:`int m[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+int i, sum = 0;
+for (i = 0; i < 3; i++)
+    sum += m[i][i];
+printf("%i", sum);`, ans:"15",
+  why:"Using the same variable for both indices walks the main diagonal: 1 + 5 + 9 = 15. A useful pattern to recognise on sight."},
+ {type:"mcq", L:11, q:"Which sequence is the correct minimum for writing to a file?",
+  choices:["fopen, fprintf, fclose","fopen, check NULL, fprintf, fclose","fprintf, fopen, fclose","fopen, fscanf, fclose"], correct:1,
+  why:"The NULL check is not optional — it is expected in every file-I/O answer. Open, verify, write, close."},
+ {type:"out", L:10, q:"The user types   42abc   at this scanf. What is printed?", code:`int n;
+scanf("%i", &n);
+printf("%i", n);`, ans:"42",
+  why:"scanf with %i consumes digits until it hits something that cannot be part of an integer. It takes 42 and leaves \"abc\" sitting in the buffer, where it will wreck the next read."},
+ {type:"write", L:9, q:"Write a complete program that reads an integer n from the user and prints every integer between 2 and n-1 that divides n evenly.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+
+    printf("Enter n: ");
+    scanf("%i", &n);
+
+    for (i = 2; i <= n - 1; i++) {
+        if (n % i == 0)
+            printf("%i ", i);
+    }
+    printf("\\n");
+
+    return 0;
+}`,
+  why:"Marks: input with & (1), loop bounds starting at 2 and stopping at n-1 (2), the n % i == 0 test (2), output (1). Starting at 1 or including n itself loses marks."},
+ {type:"write", L:13, q:"Write code that creates a 4 x 4 matrix where element [i][j] holds i+j, then prints it as a neat grid with each number in a field 4 wide.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[4][4];
+    int i, j;
+
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4; j++)
+            a[i][j] = i + j;
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++)
+            printf("%4i", a[i][j]);
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+  why:"Marks: 2-D declaration (1), nested fill loops (2), nested print loops (2), the newline placed between the closing braces, not inside the inner loop (1). That last one is the single most commonly lost mark on array questions."}
+]}
+];
+
+/* ============================ CHEAT SHEET ============================ */
+const SHEET = {
+  intro:"Everything below is fair game for a handwritten exam with no compiler. Learn the tables cold — most lost marks are format specifiers and off-by-one loop bounds, not big ideas.",
+  outSpec:[
+   ["%i","int","Decimal integer. Identical to %d for output."],
+   ["%d","int","Decimal integer. Identical to %i for output."],
+   ["%o","int","Unsigned octal (base 8)."],
+   ["%x","int","Unsigned hexadecimal (base 16), lowercase."],
+   ["%f","double","Fixed-point, 6 decimals by default."],
+   ["%e","double","Scientific notation, e.g. 3.140000e+00."],
+   ["%g","double","Shorter of %f/%e; trailing zeros dropped."],
+   ["%c","char","One character, rendered from its ASCII code."],
+   ["%s","string","Characters up to the terminating '\\0'."]
+  ],
+  inSpec:[
+   ["%i","&int","Reads an int; skips leading whitespace."],
+   ["%f","&float","Reads a float."],
+   ["%lf","&double","Reads a double — the l is required (printf uses %f, scanf uses %lf)."],
+   ["%c","&char","Reads exactly ONE character, whitespace included."],
+   ["%s","char[]","Reads one whitespace-delimited word and appends '\\0'. No & (an array name is already an address)."]
+  ],
+  width:[
+   ["%5i","'   42'","Min width 5, right-aligned, space-padded."],
+   ["%-5i","'42   '","Left-aligned within width 5."],
+   ["%05i","'00042'","Zero-padded to width 5."],
+   ["%8.3f","'   3.142'","Width 8 total, 3 after the point (width counts the dot)."],
+   ["%.0f","'3'","Zero decimals — rounds and drops the point."],
+   ["%2i","'426'","Value wider than the field just overflows; nothing is cut."]
+  ],
+  loops:[
+   ["for","for (i=0; i<n; i++) { body }","Count is known up front. Init, test, update in one line.","pre-test (0+ runs)"],
+   ["while","i=0; while (i<n) { body; i++; }","Loop until a condition changes. Test is before the body.","pre-test (0+ runs)"],
+   ["do-while","i=0; do { body; i++; } while (i<n);","Body must run at least once (menus, input validation).","post-test (1+ runs)"]
+  ],
+  ascii:[
+   ["'0' … '9'","48 … 57","digit char minus '0' gives its value: '7'-'0' == 7"],
+   ["'A' … 'Z'","65 … 90","uppercase letters, contiguous"],
+   ["'a' … 'z'","97 … 122","lowercase; 'a'-'A' == 32"],
+   ["' ' (space)","32","",],
+   ["'\\n' newline","10","",],
+   ["'\\0' null","0","ends every C string"],
+   ["EOF","-1 (negative)","what getchar / getc / scanf return at end of file"]
+  ],
+  fileTemplate:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    FILE *fp;
+
+    fp = fopen("data.txt", "r");   /* "r" read, "w" write, "a" append */
+    if (fp == NULL) {              /* NEVER skip this check */
+        printf("Could not open file\\n");
+        return 1;
+    }
+
+    int x;
+    while (fscanf(fp, "%i", &x) != EOF) {
+        printf("%i\\n", x);
+    }
+
+    fclose(fp);                    /* always close what you open */
+    return 0;
+}`,
+  fileFns:[
+   ["fopen(name, mode)","Opens a file, returns a FILE* (or NULL on failure)."],
+   ["fclose(fp)","Closes the file. Match every fopen with an fclose."],
+   ["fscanf / fprintf","Like scanf/printf but first argument is the FILE*."],
+   ["getc(fp) / putc(c,fp)","Read / write a single character to a file."],
+   ["getchar / putchar","Read / write a single character on the console."],
+   ["feof(fp) / EOF","Detect end of file. fscanf returns EOF when it runs out."]
+  ],
+  examinable:"Lesson 11 states the examinable I/O set explicitly — getchar, putchar, scanf, printf, fopen, fclose, getc, putc, fscanf, fprintf, feof, EOF. Output specifiers %i %d %o %x %f %e %g %c %s. Input specifiers %i %f %lf %c %s.",
+  gotchas:[
+   "Integer division truncates: 1/4 is 0. Write 1.0/4 or cast to (double).",
+   "scanf needs the address: scanf(\"%i\", &n) — the & is not optional for scalars.",
+   "= assigns, == compares. if (x = 5) is always true and assigns 5.",
+   "A stray semicolon after for/while/if gives an empty body: for(...);",
+   "Array index runs 0 … size-1. int a[10] has no a[10].",
+   "setvbuf(stdout, NULL, _IONBF, 0); goes at the top of main — course convention."
+  ]
+};
+
+/* ============================ HELPERS ============================ */
+const $  = (s, r=document) => r.querySelector(s);
+const el = (tag, cls, html) => { const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; };
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function pre(code){ return '<pre>'+esc(code)+'</pre>'; }
+function norm(s){ return String(s).trim().replace(/\s+/g,' ').toLowerCase(); }
+
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+
+/* ============================ TABS ============================ */
+const VIEWS = ['plan','lessons','practice','write','exam','sheet'];
+const TABS  = [...document.querySelectorAll('.tab')];
+function show(v){
+  VIEWS.forEach(x => { document.getElementById('v-'+x).hidden = (x!==v); });
+  TABS.forEach(t => t.setAttribute('aria-selected', t.dataset.view===v ? 'true':'false'));
+  window.scrollTo({top:0});
+}
+TABS.forEach(t => t.addEventListener('click', () => show(t.dataset.view)));
+
+/* ============================ PLAN ============================ */
+const EXAM_DATE = new Date(2026, 8, 29, 20, 0, 0); // 29 Sep 2026, 20:00 local
+function renderPlan(){
+  const s = document.getElementById('v-plan');
+  s.innerHTML = `
+    <div class="col stack-lg">
+      <div class="stack">
+        <div class="eyebrow">CSCI 151 · Programming for Scientists and Engineers</div>
+        <h1 style="font-size:clamp(28px,6.5vw,40px)">Midterm 1, drilled to the ground.</h1>
+        <p class="lede">Lessons 1 to 13. Handwritten paper, no compiler — so the whole game is tracing output in your head and writing clean C by hand. Read the lessons, grind the practice bank, write real programs, then sit the mocks under the clock.</p>
+      </div>
+
+      <div class="hero">
+        <div class="hlabel">Time left</div>
+        <div class="hbig" id="cd">—</div>
+        <div class="hsub">until the exam · Tue 29 Sep 2026, 20:00–21:00 · Ballroom Left = sections 1–5 · Ballroom Right = sections 6–10</div>
+      </div>
+
+      <div class="grid">
+        <div class="tile"><h4>When &amp; where</h4><p>Tue 29 Sep 2026, 20:00–21:00 (1 hour). Ballroom Left = lab sections 1–5 (Iliyas Tursynbek); Ballroom Right = sections 6–10 (Olzhas Adiyatov).</p></div>
+        <div class="tile"><h4>Bring</h4><p>University ID and pens. Paper is provided. No compiler, no notes — everything is by hand.</p></div>
+        <div class="tile"><h4>Covers</h4><p>Lessons 1–13: from how programs work through operators, all three loops, if-statements, formatted &amp; file I/O, and arrays (1-D and 2-D).</p></div>
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:19px">A study order that works</h2>
+        <ol>
+          <li><b>Read each lesson tab once</b>, focusing on the <i>traps</i> and the worked example's output — that's where marks leak.</li>
+          <li><b>Grind the Practice tab.</b> Predict-the-output questions are the fastest way to expose shaky understanding. Cover the answer first.</li>
+          <li><b>Write the code exercises by hand</b>, on paper, before revealing the solution. Typing is not the skill being tested.</li>
+          <li><b>Sit both mock papers</b> under the 60-minute timer, no peeking. Then read every explanation, right or wrong.</li>
+          <li>Re-drill only the lessons you missed. Mark a lesson "studied" once you can do its exercises cold.</li>
+        </ol>
+      </div>
+
+      <div class="trap">
+        <b>Honesty note</b>
+        The mock papers are modelled on the lesson material and the course's own style — they are <b>not</b> real past exams. If you get hold of a genuine past Midterm 1 or the lab sheets, use those over the mocks: real question phrasing beats any reconstruction.
+      </div>
+    </div>`;
+  tickClock();
+}
+function tickClock(){
+  const b = document.getElementById('cd');
+  if(!b) return;
+  const diff = EXAM_DATE - new Date();
+  if(diff <= 0){ b.textContent = "It's exam time — go."; return; }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor(diff/3600000)%24;
+  const m = Math.floor(diff/60000)%60;
+  const sec = Math.floor(diff/1000)%60;
+  b.textContent = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(sec).padStart(2,'0')}s`;
+}
+setInterval(tickClock, 1000);
+
+/* ============================ LESSONS ============================ */
+function renderLessons(){
+  const s = document.getElementById('v-lessons');
+  const done = store.get('csci151.done', {});
+  const wrap = el('div','col stack');
+  wrap.appendChild(el('div', null,
+    `<div class="eyebrow">Lessons 1–13</div>
+     <h1 style="font-size:26px;margin:6px 0 4px">The course, distilled</h1>
+     <p class="lede">Tap a lesson to open it. Each has the key points, the traps that lose marks, a worked example with its exact output, the lesson's own review questions, and the coding exercises with full solutions.</p>`));
+
+  LESSONS.forEach(L => {
+    const lesson = el('div','lesson');
+
+    const head = el('div','lesson-head');
+    head.innerHTML = `
+      <div class="num">L${L.n}</div>
+      <div style="flex:1">
+        <h3>${L.title}</h3>
+        <div class="lesson-sub">${L.mod} · ${L.gist}</div>
+      </div>
+      <button class="done-btn" ${done[L.n]?'data-on="1"':''} type="button">${done[L.n]?'studied ✓':'mark studied'}</button>
+      <div class="chev">▸</div>`;
+    lesson.appendChild(head);
+
+    const body = el('div','lesson-body'); body.hidden = true;
+
+    if(L.points && L.points.length){
+      const ul = el('ul'); L.points.forEach(p => ul.appendChild(el('li',null,p))); body.appendChild(ul);
+    }
+    (L.traps||[]).forEach(t => body.appendChild(el('div','trap',`<b>${t.t}</b>${t.b}`)));
+
+    if(L.code){
+      const box = el('div','stack');
+      box.style.gap='6px';
+      box.appendChild(el('div','eyebrow', esc(L.code.label)));
+      box.appendChild(el('div',null, pre(L.code.src)));
+      if(L.code.out){ box.appendChild(el('div','eyebrow','Output')); box.appendChild(el('div',null, pre(L.code.out))); }
+      if(L.code.outnote){ box.appendChild(el('p',null,`<span style="color:var(--ink-2);font-size:14px">${L.code.outnote}</span>`)); }
+      body.appendChild(box);
+    }
+
+    if(L.quiz && L.quiz.length){
+      const qwrap = el('div','stack');
+      qwrap.appendChild(el('div','eyebrow','Lesson review questions'));
+      L.quiz.forEach(qa => {
+        const card = el('div','q');
+        card.appendChild(el('div','q-text', `<b>${qa.q}</b>`));
+        const ansBox = el('div','ans'); ansBox.hidden = true;
+        ansBox.appendChild(el('div','why', qa.a.indexOf('\n')>=0 ? pre(qa.a) : qa.a));
+        const btn = el('button','act ghost', 'Show answer');
+        btn.type='button';
+        btn.addEventListener('click', ()=>{ ansBox.hidden=!ansBox.hidden; btn.textContent = ansBox.hidden?'Show answer':'Hide answer'; });
+        card.appendChild(btn); card.appendChild(ansBox);
+        qwrap.appendChild(card);
+      });
+      body.appendChild(qwrap);
+    }
+
+    if(L.ex && L.ex.length){
+      const ewrap = el('div','stack');
+      ewrap.appendChild(el('div','eyebrow','Coding exercises — try on paper first'));
+      L.ex.forEach(ex => {
+        const card = el('div','q');
+        card.appendChild(el('div','q-text', ex.q));
+        const sol = el('div','ans'); sol.hidden = true;
+        sol.appendChild(el('div',null, pre(ex.sol)));
+        if(ex.note) sol.appendChild(el('div','why', ex.note));
+        const btn = el('button','act ghost','Show solution'); btn.type='button';
+        btn.addEventListener('click', ()=>{ sol.hidden=!sol.hidden; btn.textContent = sol.hidden?'Show solution':'Hide solution'; });
+        card.appendChild(btn); card.appendChild(sol);
+        ewrap.appendChild(card);
+      });
+      body.appendChild(ewrap);
+    }
+
+    lesson.appendChild(body);
+
+    // toggle open/close (ignore clicks on the done button)
+    head.addEventListener('click', (e)=>{
+      if(e.target.closest('.done-btn')) return;
+      body.hidden = !body.hidden;
+      head.querySelector('.chev').textContent = body.hidden ? '▸' : '▾';
+    });
+    head.querySelector('.done-btn').addEventListener('click', ()=>{
+      const map = store.get('csci151.done', {});
+      map[L.n] = !map[L.n];
+      store.set('csci151.done', map);
+      const b = head.querySelector('.done-btn');
+      if(map[L.n]){ b.dataset.on='1'; b.textContent='studied ✓'; }
+      else { delete b.dataset.on; b.textContent='mark studied'; }
+    });
+
+    wrap.appendChild(lesson);
+  });
+
+  s.innerHTML=''; s.appendChild(wrap);
+}
+
+/* ============================ PRACTICE ============================ */
+let practiceFilter = 'all';
+function renderPractice(){
+  const s = document.getElementById('v-practice');
+  s.innerHTML='';
+  const wrap = el('div','col stack');
+  wrap.appendChild(el('div',null,
+    `<div class="eyebrow">Practice bank · ${BANK.length} questions</div>
+     <h1 style="font-size:26px;margin:6px 0 4px">Drill until it's boring</h1>
+     <p class="lede">Predict-the-output and multiple-choice, straight from the lesson material. Answer before you reveal. Filter by lesson to target a weak spot.</p>`));
+
+  const lessonsWith = [...new Set(BANK.map(b=>b.L))].sort((a,b)=>a-b);
+  const chips = el('div','chips');
+  const mkChip = (val,label) => {
+    const c = el('button','chip',label); c.type='button';
+    c.setAttribute('aria-pressed', practiceFilter===val ? 'true':'false');
+    c.addEventListener('click', ()=>{ practiceFilter=val; renderPractice(); });
+    return c;
+  };
+  chips.appendChild(mkChip('all','All'));
+  lessonsWith.forEach(n => chips.appendChild(mkChip(n,'L'+n)));
+  wrap.appendChild(chips);
+
+  const list = el('div','stack');
+  const items = BANK.filter(b => practiceFilter==='all' || b.L===practiceFilter);
+  items.forEach(item => list.appendChild(buildPracticeCard(item)));
+  wrap.appendChild(list);
+  s.appendChild(wrap);
+}
+function buildPracticeCard(item){
+  const card = el('div','q');
+  const typeLabel = item.type==='mcq' ? 'Multiple choice' : 'Predict output';
+  card.appendChild(el('div','q-top', `<span class="pill acc">L${item.L}</span><span class="pill">${typeLabel}</span>`));
+  card.appendChild(el('div','q-text', item.q));
+  if(item.code) card.appendChild(el('div',null, pre(item.code)));
+
+  const ans = el('div','ans'); ans.hidden = true;
+  ans.appendChild(el('div','why', item.why));
+
+  if(item.type==='mcq'){
+    const box = el('div','choices');
+    item.choices.forEach((ch,i)=>{
+      const lab = el('label','choice');
+      lab.innerHTML = `<input type="radio" name="p-${cardId(item)}"><span>${esc(ch)}</span>`;
+      lab.addEventListener('click', ()=>{
+        if(card.dataset.locked) return;
+        card.dataset.locked='1';
+        [...box.children].forEach((c,j)=>{
+          if(j===item.correct) c.classList.add('right');
+          else if(j===i) c.classList.add('wrong');
+        });
+        ans.hidden=false;
+      });
+      box.appendChild(lab);
+    });
+    card.appendChild(box);
+    card.appendChild(ans);
+  } else {
+    const row = el('div','btn-row');
+    const input = el('input'); input.type='text'; input.placeholder='your output…'; input.style.maxWidth='260px';
+    const check = el('button','act','Check'); check.type='button';
+    const verdict = el('span','verdict');
+    check.addEventListener('click', ()=>{
+      const ok = norm(input.value)===norm(item.ans);
+      verdict.textContent = ok ? 'correct' : 'not quite';
+      verdict.className = 'verdict ' + (ok?'ok':'bad');
+      ans.hidden=false;
+    });
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter') check.click(); });
+    row.appendChild(input); row.appendChild(check); row.appendChild(verdict);
+    card.appendChild(row);
+    ans.insertBefore(el('div',null,`<span class="eyebrow">Answer</span> <code>${esc(item.ans)}</code>`), ans.firstChild);
+    card.appendChild(ans);
+  }
+  return card;
+}
+let _cid=0; const _cidMap=new WeakMap();
+function cardId(item){ if(!_cidMap.has(item)) _cidMap.set(item, ++_cid); return _cidMap.get(item); }
+
+/* ============================ MOCK EXAMS ============================ */
+let examTimer=null;
+function renderExam(){
+  const s=document.getElementById('v-exam');
+  s.innerHTML='';
+  const wrap=el('div','col stack');
+  wrap.appendChild(el('div',null,
+    `<div class="eyebrow">Mock exams</div>
+     <h1 style="font-size:26px;margin:6px 0 4px">Sit it under the clock</h1>
+     <p class="lede">60 minutes, same as the real thing. Answer every question, then submit for an auto-graded score and a full explanation on each. Write-code questions you mark yourself against the model solution.</p>`));
+
+  const pick=el('div','stack');
+  EXAMS.forEach(ex=>{
+    const t=el('div','tile');
+    t.style.cursor='pointer';
+    const counts=ex.qs.reduce((a,q)=>{a[q.type]=(a[q.type]||0)+1;return a;},{});
+    t.innerHTML=`<h4>${esc(ex.title)}</h4><p>${ex.qs.length} questions · ${ex.mins} min · ${counts.mcq||0} choice, ${counts.out||0} trace, ${counts.write||0} write-code</p>`;
+    t.addEventListener('click', ()=>startExam(ex));
+    pick.appendChild(t);
+  });
+  wrap.appendChild(pick);
+  wrap.appendChild(el('div','trap','<b>reminder</b>These papers are modelled on the lessons, not copied from a real exam. Treat the score as a readiness signal, not a prediction.'));
+  s.appendChild(wrap);
+}
+
+function startExam(ex){
+  if(examTimer){ clearInterval(examTimer); examTimer=null; }
+  const s=document.getElementById('v-exam');
+  s.innerHTML='';
+  const wrap=el('div','col stack');
+
+  // sticky top: timer + progress + submit
+  const top=el('div','examtop');
+  top.innerHTML=`<span class="timer" id="etimer">${fmtTime(ex.mins*60)}</span>
+     <div class="bar-track"><div class="bar-fill" id="ebar"></div></div>`;
+  const submit=el('button','act','Submit'); submit.type='button';
+  const back=el('button','act ghost','Leave'); back.type='button';
+  back.addEventListener('click', renderExam);
+  top.appendChild(submit); top.appendChild(back);
+  wrap.appendChild(top);
+  wrap.appendChild(el('div',null,`<h2 style="font-size:19px">${esc(ex.title)}</h2>`));
+
+  const scoreLine=el('div'); scoreLine.hidden=true; wrap.appendChild(scoreLine);
+
+  const cards=ex.qs.map((q,i)=>{ const c=buildExamCard(q,i); wrap.appendChild(c.node); return c; });
+
+  let finished=false;
+  function finish(){
+    if(finished) return; finished=true;
+    if(examTimer){ clearInterval(examTimer); examTimer=null; }
+    let auto=0, autoTotal=0, writeTotal=0;
+    cards.forEach(c=>{
+      const r=c.grade();
+      if(r.kind==='auto'){ autoTotal++; if(r.correct) auto++; }
+      else writeTotal++;
+    });
+    scoreLine.hidden=false;
+    scoreLine.className='clock';
+    scoreLine.innerHTML=`<b>${auto}/${autoTotal}</b><small>auto-graded correct${writeTotal?` · ${writeTotal} write-code question${writeTotal>1?'s':''} to self-mark below`:''}</small>`;
+    submit.textContent='Submitted'; submit.disabled=true;
+    scoreLine.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  submit.addEventListener('click', finish);
+
+  // timer
+  let remaining=ex.mins*60; const total=ex.mins*60;
+  const tEl=top.querySelector('#etimer'); const bar=top.querySelector('#ebar');
+  examTimer=setInterval(()=>{
+    remaining--;
+    tEl.textContent=fmtTime(Math.max(remaining,0));
+    if(remaining<=60) tEl.classList.add('low');
+    bar.style.width=(100*(total-remaining)/total)+'%';
+    if(remaining<=0){ clearInterval(examTimer); examTimer=null; finish(); }
+  },1000);
+
+  s.appendChild(wrap);
+  window.scrollTo({top:0});
+}
+function fmtTime(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+
+function buildExamCard(q, idx){
+  const card=el('div','q');
+  const label={mcq:'Multiple choice', out:'Predict output', write:'Write code'}[q.type];
+  card.appendChild(el('div','q-top',`<span class="pill acc">Q${idx+1}</span><span class="pill">L${q.L}</span><span class="pill">${label}</span>`));
+  card.appendChild(el('div','q-text', q.q));
+  if(q.code) card.appendChild(el('div',null, pre(q.code)));
+
+  const ans=el('div','ans'); ans.hidden=true;
+
+  if(q.type==='mcq'){
+    const box=el('div','choices'); const inputs=[];
+    q.choices.forEach((ch,i)=>{
+      const lab=el('label','choice');
+      lab.innerHTML=`<input type="radio" name="e-${idx}"><span>${esc(ch)}</span>`;
+      box.appendChild(lab); inputs.push(lab.querySelector('input'));
+    });
+    card.appendChild(box);
+    ans.appendChild(el('div','why', q.why));
+    card.appendChild(ans);
+    return { node:card, grade(){
+      const sel=inputs.findIndex(x=>x.checked);
+      [...box.children].forEach((c,j)=>{
+        c.style.cursor='default';
+        if(j===q.correct) c.classList.add('right');
+        else if(j===sel) c.classList.add('wrong');
+      });
+      inputs.forEach(x=>x.disabled=true);
+      ans.hidden=false;
+      return {kind:'auto', correct: sel===q.correct};
+    }};
+  }
+
+  if(q.type==='out'){
+    const row=el('div','btn-row');
+    const input=el('input'); input.type='text'; input.placeholder='output…'; input.style.maxWidth='260px';
+    row.appendChild(input); card.appendChild(row);
+    const verdict=el('div','verdict');
+    ans.appendChild(verdict);
+    ans.appendChild(el('div',null,`<span class="eyebrow">Answer</span> <code>${esc(q.ans)}</code>`));
+    ans.appendChild(el('div','why', q.why));
+    card.appendChild(ans);
+    return { node:card, grade(){
+      const ok=norm(input.value)===norm(q.ans);
+      input.disabled=true;
+      verdict.textContent= ok?'correct':'not quite';
+      verdict.className='verdict '+(ok?'ok':'bad');
+      ans.hidden=false;
+      return {kind:'auto', correct:ok};
+    }};
+  }
+
+  // write
+  const ta=el('textarea'); ta.placeholder='Write your program here (or on paper)…';
+  card.appendChild(ta);
+  ans.appendChild(el('div','eyebrow','Model solution'));
+  ans.appendChild(el('div',null, pre(q.sol)));
+  ans.appendChild(el('div','why', q.why));
+  const selfRow=el('div','btn-row');
+  selfRow.appendChild(el('span',null,'<span style="font-size:14px;color:var(--ink-2)">Self-mark:</span>'));
+  const got=el('button','done-btn','I got it'); got.type='button';
+  selfRow.appendChild(got);
+  got.addEventListener('click', ()=>{ const on=got.dataset.on==='1'; if(on){delete got.dataset.on;got.textContent='I got it';} else {got.dataset.on='1';got.textContent='got it ✓';} });
+  ans.appendChild(selfRow);
+  card.appendChild(ans);
+  return { node:card, grade(){ ta.disabled=true; ans.hidden=false; return {kind:'write'}; } };
+}
+
+/* ============================ WRITE-CODE DRILL ============================
+   The "course" tasks below are pulled live from each lesson's real exercises.
+   WRITE_EXTRA are additional tasks written for this site in the course's
+   style — good practice, but not real exam questions.
+   ========================================================================= */
+const WRITE_EXTRA = [
+ {L:4, q:"Read two integers from the user and print their sum, difference and product, each on its own line and clearly labelled.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a, b;
+    printf("Enter two integers: ");
+    scanf("%i %i", &a, &b);
+
+    printf("Sum:        %i\\n", a + b);
+    printf("Difference: %i\\n", a - b);
+    printf("Product:    %i\\n", a * b);
+
+    return 0;
+}`,
+  note:"One scanf can read both values. Every scanf argument needs the & — forgetting it on either variable is the classic slip."},
+
+ {L:5, q:"Read a temperature in Celsius (it may have decimals) and print it converted to Fahrenheit, to one decimal place.  F = C * 9/5 + 32.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double c;
+    printf("Celsius: ");
+    scanf("%lf", &c);
+
+    double f = c * 9.0 / 5.0 + 32.0;
+    printf("%.1f F\\n", f);
+
+    return 0;
+}`,
+  note:"Write 9.0/5.0, not 9/5 — integer division makes 9/5 equal to 1 and every answer wrong. Read a double with %lf, not %f."},
+
+ {L:5, q:"Given two int variables a and b with values you set, swap their contents using a third variable, then print both to prove it worked.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a = 7, b = 3;
+    int temp;
+
+    temp = a;
+    a = b;
+    b = temp;
+
+    printf("a = %i, b = %i\\n", a, b);
+    return 0;
+}`,
+  note:"The temp variable is the whole point. Writing a = b; b = a; loses a's value on the first line — a guaranteed logical error."},
+
+ {L:6, q:"Read a positive integer n and print the sum of all integers from 1 to n using a for loop.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i, sum = 0;
+    printf("n: ");
+    scanf("%i", &n);
+
+    for (i = 1; i <= n; i++)
+        sum += i;
+
+    printf("Sum = %i\\n", sum);
+    return 0;
+}`,
+  note:"Initialise sum to 0 before the loop. Use i <= n so n itself is included; i < n silently drops the last term."},
+
+ {L:6, q:"Read an integer n and print its multiplication table from n x 1 to n x 10, one line each, e.g.  7 x 3 = 21.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    printf("n: ");
+    scanf("%i", &n);
+
+    for (i = 1; i <= 10; i++)
+        printf("%i x %i = %i\\n", n, i, n * i);
+
+    return 0;
+}`,
+  note:"The loop counter i runs 1..10; n stays fixed. A common slip is looping over n instead of a fresh counter."},
+
+ {L:7, q:"Read a positive integer and count how many digits it has, using a while loop (do not convert it to a string).",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, count = 0;
+    printf("n: ");
+    scanf("%i", &n);
+
+    if (n == 0) count = 1;
+    while (n > 0) {
+        n = n / 10;
+        count++;
+    }
+
+    printf("Digits: %i\\n", count);
+    return 0;
+}`,
+  note:"Integer division by 10 chops one digit each pass. Handle n == 0 separately, or the loop runs zero times and reports 0 digits."},
+
+ {L:8, q:"Using a do-while loop, keep asking the user for a number between 1 and 10 until they enter a valid one, then print it.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int x;
+    do {
+        printf("Enter a number 1-10: ");
+        scanf("%i", &x);
+    } while (x < 1 || x > 10);
+
+    printf("Thanks, you entered %i\\n", x);
+    return 0;
+}`,
+  note:"do-while is the right tool for input validation: the prompt must run at least once. The condition is the INVALID range, so the loop repeats while the input is bad."},
+
+ {L:9, q:"Read three integers and print the largest of the three using if / else if statements.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a, b, c;
+    printf("Three integers: ");
+    scanf("%i %i %i", &a, &b, &c);
+
+    int max = a;
+    if (b > max) max = b;
+    if (c > max) max = c;
+
+    printf("Largest: %i\\n", max);
+    return 0;
+}`,
+  note:"Seed max with the first value, then compare the rest. Using two independent ifs (not else-if) is fine here and avoids a tangled nested condition."},
+
+ {L:9, q:"Read an exam score 0-100 and print a letter grade: A for 90+, B for 80-89, C for 70-79, D for 60-69, otherwise F.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int s;
+    printf("Score: ");
+    scanf("%i", &s);
+
+    if      (s >= 90) printf("A\\n");
+    else if (s >= 80) printf("B\\n");
+    else if (s >= 70) printf("C\\n");
+    else if (s >= 60) printf("D\\n");
+    else              printf("F\\n");
+
+    return 0;
+}`,
+  note:"Order the tests from highest to lowest and use else-if so each score matches exactly one branch. Independent ifs here would print several grades."},
+
+ {L:10, q:"Print a neat table of the numbers 1 to 5 with their squares and cubes, each column right-aligned in a field 6 wide, with a header row.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int i;
+    printf("%6s%6s%6s\\n", "n", "sq", "cube");
+    for (i = 1; i <= 5; i++)
+        printf("%6i%6i%6i\\n", i, i*i, i*i*i);
+
+    return 0;
+}`,
+  note:"A width like %6i right-aligns each value in a 6-character column so everything lines up. Use %6s for the string header to match the number columns."},
+
+ {L:11, q:"Open a file called numbers.txt, read integers from it until end of file, and print how many there were and their total. Check the file opened.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    FILE *fp = fopen("numbers.txt", "r");
+    if (fp == NULL) {
+        printf("Could not open file\\n");
+        return 1;
+    }
+
+    int x, count = 0, total = 0;
+    while (fscanf(fp, "%i", &x) != EOF) {
+        total += x;
+        count++;
+    }
+
+    fclose(fp);
+    printf("%i numbers, total %i\\n", count, total);
+    return 0;
+}`,
+  note:"The NULL check is expected every time — skipping it loses marks even if the rest is perfect. Match fopen with fclose, and loop while fscanf != EOF."},
+
+ {L:12, q:"Read 10 integers into an array, then print their average and how many of them are above that average.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int a[10];
+    int i, sum = 0;
+
+    for (i = 0; i < 10; i++) {
+        scanf("%i", &a[i]);
+        sum += a[i];
+    }
+
+    double avg = sum / 10.0;
+
+    int above = 0;
+    for (i = 0; i < 10; i++)
+        if (a[i] > avg) above++;
+
+    printf("Average: %.2f\\n", avg);
+    printf("Above average: %i\\n", above);
+    return 0;
+}`,
+  note:"You need the full array in memory because the second pass compares every element to an average you can only compute after reading them all. Divide by 10.0 to keep the average a double."},
+
+ {L:13, q:"Fill a 3 x 3 matrix with values the user enters, then print the sum of each row on its own line.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int m[3][3];
+    int i, j;
+
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            scanf("%i", &m[i][j]);
+
+    for (i = 0; i < 3; i++) {
+        int rowSum = 0;
+        for (j = 0; j < 3; j++)
+            rowSum += m[i][j];
+        printf("Row %i sum: %i\\n", i, rowSum);
+    }
+
+    return 0;
+}`,
+  note:"Reset rowSum to 0 at the top of each outer pass, not once before the loops — otherwise the sums accumulate across rows."}
+];
+
+/* Lab-level tasks: multi-concept, with edge cases — pitched at the difficulty of
+   the real lab assignments (rounding tricks, digit work, validation loops,
+   pattern printing, multi-pass arrays), but written fresh for this site.
+   This is the tier the midterm's harder write-code questions tend to live in. */
+const WRITE_LAB = [
+ {L:5, q:"Read a price in dollars (a double) and a tax rate as a whole-number percent, then print the final price rounded to exactly 2 decimal places WITHOUT using any rounding library function.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double price;
+    int ratePct;
+
+    printf("Price: ");
+    scanf("%lf", &price);
+    printf("Tax rate (%%): ");
+    scanf("%i", &ratePct);
+
+    double total = price * (1.0 + ratePct / 100.0);
+
+    /* manual round to 2 decimals: shift, add 0.5, truncate, shift back */
+    int cents = (int)(total * 100 + 0.5);
+    double rounded = cents / 100.0;
+
+    printf("Total: %.2f\\n", rounded);
+    return 0;
+}`,
+  note:"The ×100, +0.5, cast-to-int, ÷100 trick is the manual-rounding pattern the labs drill. Note ratePct/100.0 (not /100) so the percentage isn't killed by integer division, and %% to print a literal percent sign."},
+
+ {L:7, q:"Read a positive integer and decide whether it is a palindrome (reads the same forwards and backwards, e.g. 12321). Print YES or NO. Use a while loop; do not convert to text.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n;
+    printf("n: ");
+    scanf("%i", &n);
+
+    int original = n;
+    int reversed = 0;
+
+    while (n > 0) {
+        reversed = reversed * 10 + n % 10;
+        n = n / 10;
+    }
+
+    if (reversed == original) printf("YES\\n");
+    else                      printf("NO\\n");
+
+    return 0;
+}`,
+  note:"Save the original before the loop destroys n. reversed = reversed*10 + lastDigit builds the number backwards; compare it to the saved copy. This reverse-a-number pattern is a lab staple."},
+
+ {L:6, q:"Read a size n (1–20) and print a hollow square of '*': the border is stars and the inside is spaces. A 4x4 looks like four rows where the first and last are all stars and the middle rows are a star, spaces, a star.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i, j;
+    printf("n: ");
+    scanf("%i", &n);
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (i == 0 || i == n - 1 || j == 0 || j == n - 1)
+                printf("*");
+            else
+                printf(" ");
+        }
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+  note:"The whole trick is the border test: first/last row (i==0 or i==n-1) OR first/last column (j==0 or j==n-1). Everything else is a space. Nested-loop pattern printing like this is exactly the lab-3 style."},
+
+ {L:9, q:"Read an integer n (n >= 2) and print every prime number from 2 up to and including n, separated by spaces.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, k, d;
+    printf("n: ");
+    scanf("%i", &n);
+
+    for (k = 2; k <= n; k++) {
+        int isPrime = 1;
+        for (d = 2; d < k; d++) {
+            if (k % d == 0) {
+                isPrime = 0;
+                break;
+            }
+        }
+        if (isPrime) printf("%i ", k);
+    }
+    printf("\\n");
+
+    return 0;
+}`,
+  note:"A flag (isPrime) plus an inner divisor loop is the primality pattern. break as soon as a divisor is found. This is Lab-4's technique without the digit-sum wrapper."},
+
+ {L:8, q:"Write a menu program: repeatedly show options 1) square a number 2) cube a number 3) quit. Read the choice, act on it, and keep looping until the user picks 3. Reject any choice that isn't 1, 2 or 3.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int choice, x;
+
+    do {
+        printf("1) square  2) cube  3) quit\\n");
+        printf("Choice: ");
+        scanf("%i", &choice);
+
+        if (choice == 1) {
+            printf("Number: ");
+            scanf("%i", &x);
+            printf("%i\\n", x * x);
+        } else if (choice == 2) {
+            printf("Number: ");
+            scanf("%i", &x);
+            printf("%i\\n", x * x * x);
+        } else if (choice != 3) {
+            printf("Invalid choice\\n");
+        }
+    } while (choice != 3);
+
+    printf("Bye\\n");
+    return 0;
+}`,
+  note:"do-while is right because the menu must show at least once. The loop condition (choice != 3) is the quit test; the else-if chain handles each option and rejects anything else. Menu loops like this are classic lab material."},
+
+ {L:12, q:"Read n (1–100), then read n integers into an array. Print the maximum value and how many times that maximum appears.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int n, i;
+    int a[100];
+
+    printf("How many: ");
+    scanf("%i", &n);
+    for (i = 0; i < n; i++)
+        scanf("%i", &a[i]);
+
+    int max = a[0];
+    for (i = 1; i < n; i++)
+        if (a[i] > max) max = a[i];
+
+    int count = 0;
+    for (i = 0; i < n; i++)
+        if (a[i] == max) count++;
+
+    printf("Max %i appears %i time(s)\\n", max, count);
+    return 0;
+}`,
+  note:"Two passes over the array: one to find the max, a second to count it — you can't count while still searching, because the max isn't known until the first pass finishes. Seed max from a[0], not 0."},
+
+ {L:13, q:"Read a 3x3 matrix of integers, print it as a grid, then print whether it is symmetric — that is, a[i][j] equals a[j][i] for every pair.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int m[3][3];
+    int i, j;
+
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            scanf("%i", &m[i][j]);
+
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++)
+            printf("%4i", m[i][j]);
+        printf("\\n");
+    }
+
+    int symmetric = 1;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (m[i][j] != m[j][i]) symmetric = 0;
+
+    if (symmetric) printf("Symmetric\\n");
+    else           printf("Not symmetric\\n");
+
+    return 0;
+}`,
+  note:"Comparing m[i][j] with m[j][i] across all pairs is the symmetry check — a flag that only ever flips to 0. Fill, print, then test: three separate loop nests, each doing one job."}
+];
+
+let writeFilter = 'all';
+function writeItems(){
+  const real  = LESSONS.flatMap(L => (L.ex||[]).map(e => ({L:L.n, q:e.q, sol:e.sol, note:e.note, src:'course'})));
+  const extra = WRITE_EXTRA.map(e => ({L:e.L, q:e.q, sol:e.sol, note:e.note, src:'extra'}));
+  const lab   = WRITE_LAB.map(e => ({L:e.L, q:e.q, sol:e.sol, note:e.note, src:'lab'}));
+  return real.concat(extra, lab).sort((a,b)=> a.L - b.L);
+}
+function renderWrite(){
+  const s = document.getElementById('v-write');
+  s.innerHTML = '';
+  const items = writeItems();
+  const wrap = el('div','col stack');
+  const nReal = items.filter(i=>i.src==='course').length;
+  const nLab  = items.filter(i=>i.src==='lab').length;
+  wrap.appendChild(el('div', null,
+    `<div class="eyebrow">Write code · ${items.length} tasks</div>
+     <h1 style="font-size:clamp(24px,5.5vw,30px);margin:6px 0 4px">Write it by hand, then check</h1>
+     <p class="lede">The exam is handwritten, so the only practice that counts is drafting whole programs on paper. ${nReal} are the real course exercises, ${nLab} are <b>lab-level</b> tasks pitched where the harder exam questions live, and the rest are lighter drills. Try each before you reveal the answer.</p>`));
+
+  const lessonsWith = [...new Set(items.map(i=>i.L))].sort((a,b)=>a-b);
+  const chips = el('div','chips');
+  const mkChip = (val,label) => {
+    const c = el('button','chip',label); c.type='button';
+    c.setAttribute('aria-pressed', writeFilter===val ? 'true':'false');
+    c.addEventListener('click', ()=>{ writeFilter=val; renderWrite(); });
+    return c;
+  };
+  chips.appendChild(mkChip('all','All'));
+  chips.appendChild(mkChip('lab','Lab level'));
+  chips.appendChild(mkChip('course','Course exercises'));
+  chips.appendChild(mkChip('extra','Extra drills'));
+  lessonsWith.forEach(n => chips.appendChild(mkChip(n,'L'+n)));
+  wrap.appendChild(chips);
+
+  const done = store.get('csci151.write', {});
+  const list = el('div','stack');
+  const shown = items.filter(i =>
+    writeFilter==='all' ? true :
+    writeFilter==='course' ? i.src==='course' :
+    writeFilter==='extra' ? i.src==='extra' :
+    writeFilter==='lab' ? i.src==='lab' :
+    i.L===writeFilter);
+
+  shown.forEach(item => {
+    const key = 'L'+item.L+'|'+item.q.slice(0,40);
+    const card = el('div','q');
+    const tag = item.src==='course' ? '<span class="pill">Course exercise</span>'
+              : item.src==='lab' ? '<span class="pill lab">Lab level</span>'
+              : '<span class="pill">Extra drill</span>';
+    card.appendChild(el('div','q-top', `<span class="pill acc">L${item.L}</span>${tag}<span class="pill">Write code</span>`));
+    card.appendChild(el('div','q-text', `<b>${item.q}</b>`));
+
+    const ta = el('textarea'); ta.placeholder = 'Write your program here (or on paper)…';
+    card.appendChild(ta);
+
+    const sol = el('div','ans'); sol.hidden = true;
+    sol.appendChild(el('div','eyebrow','Model solution'));
+    sol.appendChild(el('div', null, pre(item.sol)));
+    if(item.note) sol.appendChild(el('div','why', item.note));
+
+    const row = el('div','btn-row');
+    const btn = el('button','act ghost','Show solution'); btn.type='button';
+    btn.addEventListener('click', ()=>{ sol.hidden=!sol.hidden; btn.textContent = sol.hidden?'Show solution':'Hide solution'; });
+    const doneBtn = el('button','done-btn', done[key]?'done ✓':'mark done'); doneBtn.type='button';
+    if(done[key]) doneBtn.dataset.on='1';
+    doneBtn.addEventListener('click', ()=>{
+      const map = store.get('csci151.write', {});
+      map[key] = !map[key];
+      store.set('csci151.write', map);
+      if(map[key]){ doneBtn.dataset.on='1'; doneBtn.textContent='done ✓'; }
+      else { delete doneBtn.dataset.on; doneBtn.textContent='mark done'; }
+    });
+    row.appendChild(btn); row.appendChild(doneBtn);
+    card.appendChild(row);
+    card.appendChild(sol);
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+  s.appendChild(wrap);
+}
+
+/* ============================ SHEET ============================ */
+function tbl(head, rows){
+  const t = '<div class="scroller"><table><thead><tr>'+head.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'
+    + rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')
+    + '</tbody></table></div>';
+  return t;
+}
+function renderSheet(){
+  const s=document.getElementById('v-sheet');
+  const S=SHEET;
+  const spec = a => a.map(r=>[`<code>${esc(r[0])}</code>`, r[1], r[2]]);
+  const widthRows = S.width.map(r=>[`<code>${esc(r[0])}</code>`, `<code>${esc(r[1])}</code>`, r[2]]);
+  const loopRows = S.loops.map(r=>[`<b>${r[0]}</b>`, `<code>${esc(r[1])}</code>`, r[2], r[3]]);
+  const asciiRows = S.ascii.map(r=>[`<code>${esc(r[0])}</code>`, `<code>${esc(r[1])}</code>`, r[2]]);
+  s.innerHTML = `
+    <div class="col stack-lg">
+      <div class="stack">
+        <div class="eyebrow">Cheat sheet</div>
+        <h1 style="font-size:26px">The tables to memorise</h1>
+        <p class="lede">${S.intro}</p>
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">printf — output specifiers</h2>
+        ${tbl(['Specifier','Type','Meaning'], spec(S.outSpec))}
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">scanf — input specifiers</h2>
+        ${tbl(['Specifier','Argument','Meaning'], spec(S.inSpec))}
+        <div class="trap"><b>the classic trap</b>printf uses <code>%f</code> for a double, but scanf needs <code>%lf</code>. Mixing them up is the single most common I/O mistake.</div>
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">Width, precision &amp; padding</h2>
+        ${tbl(['Format','Result','Rule'], widthRows)}
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">The three loops</h2>
+        ${tbl(['Loop','Shape','When','Test'], loopRows)}
+        <p style="font-size:14px;color:var(--ink-2)">Any one can do what the others do. Choose the one that reads clearest, and remember only do-while guarantees the body runs once.</p>
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">ASCII you actually need</h2>
+        ${tbl(['Characters','Codes','Note'], asciiRows)}
+      </div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">File I/O — the whole template</h2>
+        ${pre(S.fileTemplate)}
+        ${tbl(['Function','What it does'], S.fileFns.map(r=>[`<code>${esc(r[0])}</code>`, r[1]]))}
+      </div>
+
+      <div class="trap"><b>examinable I/O set — Lesson 11</b>${S.examinable}</div>
+
+      <div class="stack">
+        <h2 style="font-size:18px">Mark-savers</h2>
+        <ul>${S.gotchas.map(g=>`<li>${g}</li>`).join('')}</ul>
+      </div>
+    </div>`;
+}
+
+/* ============================ BOOT ============================ */
+renderPlan();
+renderLessons();
+renderPractice();
+renderExam();
+renderWrite();
+renderSheet();
+show('plan');
+</script>
