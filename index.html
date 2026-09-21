@@ -1905,179 +1905,242 @@ int main(void) {
 }`,
   why:"This single question is 40% of the grade — it decides your midterm more than everything else combined. It's a read-until-sentinel loop — while(1) with break on a negative — wrapping an inner sum-of-evens loop. On the real exam it ran against hidden test cases, so exact output matters: one sum per line, nothing extra. This is why the Write code tab is the most important thing to grind."}
 ]},
-{id:"m1a", title:"Mock Midterm 1 — Paper A", mins:60, qs:[
- {type:"mcq", L:1, q:"Which of these is NOT part of a CPU as listed in Lesson 1?",
-  choices:["Arithmetic Logic Unit","Program Counter","Secondary Storage","Control Unit"], correct:2,
-  why:"Secondary storage (disks, SSDs) is separate hardware, not part of the CPU. The CPU contains the CU, ALU, FPU, registers and the program counter."},
- {type:"mcq", L:1, q:"Which statement is true?",
-  choices:["Assembly language is portable across CPU families","A compiler translates assembly into machine code","High-level languages are generally portable because compilers exist for different CPUs","Machine code is a high-level language"], correct:2,
-  why:"Assembly and machine code are low-level and CPU-specific, so not portable. An ASSEMBLER does assembly→machine code; a COMPILER does high-level→low-level."},
- {type:"mcq", L:3, q:"A program runs to the end but prints a wrong total. This is:",
-  choices:["a syntax error","a runtime error","a logical error","a compile error"], correct:2,
-  why:"It compiled and it ran — only the result is wrong. That is a logical error, and no tool catches it for you."},
- {type:"out", L:5, q:"What is printed?", code:`int a = 17, b = 5;
-printf("%i %i %i", a/b, a%b, a/(double)b > 3.0);`, ans:"3 2 1",
-  why:"17/5 is integer division = 3. 17%5 = 2. The third: 17/5.0 = 3.4, which is greater than 3.0, and a true relational expression has the value 1."},
- {type:"out", L:5, q:"What is printed?", code:`double x = 1 / 4;
-printf("%.2f", x);`, ans:"0.00",
-  why:"1 and 4 are both ints, so 1/4 evaluates to 0 before it's ever assigned to x. Declaring x as double does not retroactively fix the division. Write 1.0/4."},
- {type:"out", L:4, q:"What is printed?", code:`char c = 'B';
-printf("%c %i", c, c);`, ans:"B 66",
-  why:"Chars are stored as their ASCII values. %c renders it as a character, %i shows the underlying number. 'A' is 65, so 'B' is 66."},
- {type:"out", L:6, q:"What is printed?", code:`int i, total = 0;
-for (i = 1; i <= 5; i++) {
-    if (i % 2 == 0) continue;
+{id:"mockB", title:"Mock Midterm — Set B (real format)", mins:60,
+ note:"Built to mirror the real Fall 2025 paper: eleven short output-tracing / concept questions plus one program-writing question worth 40%. Fresh questions, exam-sized.", qs:[
+ {type:"out", L:6, q:"How many iterations are performed by the following for loop?",
+  code:`for (int i = 3; i <= 100; i = i + 7) {
+    printf("%i\\n", i);
+}`, ans:"14",
+  why:"i goes 3, 10, 17, … up by 7 while staying <= 100. The last value is 94 (the next, 101, fails). Count = (94 - 3)/7 + 1 = 14. Find first value, last valid value, step."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int x = 9;
+int y = 2;
+double z = x / y;
+printf("%.1f", z);`, ans:"4.0",
+  why:"x / y is int / int = 4 (integer division happens first), then stored in the double z. Declaring z as double does not undo it. %.1f prints 4.0."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 47, b = 5;
+printf("%i %i", a / b, a % b);`, ans:"9 2",
+  why:"47 / 5 = 9 (how many whole 5s fit) and 47 % 5 = 2 (the remainder). Division and modulo are the pair to know cold."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 5;
+int b = ++a * 2;
+printf("%i %i", a, b);`, ans:"6 12",
+  why:"++a is pre-increment: a becomes 6 BEFORE it is used, so b = 6 * 2 = 12. Both a and b are 6 and 12. (Post-increment a++ would have used 5 first.)"},
+ {type:"out", L:6, q:"What is the console output of the following fragment?",
+  code:`for (int i = 1; i <= 3; i++)
+    for (int j = 1; j <= i; j++)
+        printf("%i", i);`, ans:"122333",
+  why:"The inner loop runs i times and prints i each time: i=1 → \"1\", i=2 → \"22\", i=3 → \"333\". Concatenated: 122333."},
+ {type:"out", L:7, q:"What is the console output of the following fragment?",
+  code:`int n = 1, sum = 0;
+while (n <= 5) {
+    sum += n * n;
+    n++;
+}
+printf("%i", sum);`, ans:"55",
+  why:"Adds the squares 1 + 4 + 9 + 16 + 25 = 55. Trace n and sum together line by line until n exceeds 5."},
+ {type:"write", L:8, q:"Match each do-while loop to its behaviour:\nA:  int i=5; do { printf(\"%i\",i); i-=2; } while (i>0);\nB:  int i=0; do { printf(\"%i\",i); i++; } while (i<0);\nC:  int i=1; do { i++; } while (i<5);\nD:  int i=3; do { printf(\"%i\",i); } while (i>0);\n\nChoices: entered exactly once with output · infinite loop · entered but no output · entered a finite number of times > 1.",
+  sol:`A -> entered a finite number of times greater than one
+     prints 5, 3, 1 then i becomes -1, condition false.
+
+B -> entered exactly once, produces output
+     prints 0, i becomes 1, 1 < 0 is false -> stops after one pass.
+
+C -> entered but produces no output
+     it loops i=1..5 but there is no printf anywhere.
+
+D -> infinite loop
+     i is never changed, so i > 0 stays true forever.`,
+  why:"A do-while always runs its body once, THEN tests. B shows that clearly (runs once even though the condition was false from the start). D is the classic infinite loop — nothing updates i."},
+ {type:"out", L:10, q:"The user types  a1b2c3  then a newline. What does this print?",
+  code:`char c;
+int s = 0;
+
+do {
+    c = getchar();
+    if (c >= '0' && c <= '9') {
+        s += c - '0';
+    } else if (c >= 'a' && c <= 'z') {
+        s++;
+    }
+} while (c != '\\n');
+
+printf("%i", s);`, ans:"9",
+  why:"Digits add their VALUE (c - '0'); lowercase letters add 1; the newline matches neither branch, so it adds nothing. 1 + 1 + 1 + 2 + 1 + 3 = 9 (letters a,b,c give +1 each; digits 1,2,3 give their values)."},
+ {type:"write", L:7, q:"Select ALL true statements about the do-while loop:\n1) it always executes its body at least once\n2) it checks the condition before the first iteration\n3) the condition is tested after each pass through the body\n4) a do-while loop can never be infinite",
+  sol:`TRUE: 1 and 3.
+
+1 is the defining feature — the body runs once before any test.
+3 is correct — the while(...) test happens at the END of each pass.
+
+FALSE:
+2 describes a while / for loop (pre-test), not do-while.
+4 is false — forget to change the condition variable and it loops forever.`,
+  why:"do-while is the post-test loop: body first, test after. That is exactly why it always runs at least once."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 4, b = 7;
+printf("%i", (a < b) + (a == 4) + (b % 2));`, ans:"3",
+  why:"Each relational/arithmetic piece: (4 < 7) is true = 1; (a == 4) is true = 1; (7 % 2) = 1. Sum = 3. A true comparison has the integer value 1 in C."},
+ {type:"out", L:6, q:"What is the console output of the following fragment?",
+  code:`int total = 0;
+for (int i = 1; i <= 10; i++) {
+    if (i % 3 == 0) continue;
     total += i;
 }
-printf("%i", total);`, ans:"9",
-  why:"continue skips the even values, so only 1 + 3 + 5 are added = 9."},
- {type:"out", L:8, q:"What is printed?", code:`int n = 0;
-do {
-    printf("%i ", n);
-    n--;
-} while (n > 0);`, ans:"0",
-  why:"The body always runs once before the condition is tested. It prints 0, decrements to -1, and then the condition fails. A while loop here would print nothing."},
- {type:"out", L:9, q:"What is printed?", code:`int a = 1, b = 0;
-if (a && b)      printf("both");
-else if (a || b) printf("one");
-else             printf("neither");`, ans:"one",
-  why:"a && b is 1 && 0 = false. a || b is 1 || 0 = true, so the else-if branch runs and the chain stops there."},
- {type:"out", L:10, q:"What is printed? (write _ for each space)", code:`printf("[%8.3f]", 3.14159);`, ans:"[___3.142]",
-  why:"Precision 3 rounds to 3.142 (five characters), then width 8 right-pads it with three leading spaces. Width counts the whole rendered value including the decimal point."},
- {type:"write", L:5, q:"Write a complete C program that reads an integer number of seconds past midnight from the user and prints the time as hh:mm:ss with two digits in each field.",
-  sol:`#include <stdio.h>
+printf("%i", total);`, ans:"37",
+  why:"continue skips the multiples of 3 (3, 6, 9). Sum of 1..10 is 55; minus 3+6+9 = 18 gives 37."},
+ {type:"write", L:7, q:"THE BIG ONE — worth 40% of the exam. Write a C program that reads integers, one per line, and keeps reading until a negative number is read (which ends the program with no further output). For every non-negative number N, print how many digits N has.",
+  code:`Example (input -> output):
+7    -> 1
+100  -> 3
+0    -> 1
+-1   -> nothing, program ends`, sol:`#include <stdio.h>
 
 int main(void) {
     setvbuf(stdout, NULL, _IONBF, 0);
 
-    int total;
-    printf("Seconds past midnight: ");
-    scanf("%i", &total);
+    int n;
+    while (1) {
+        scanf("%i", &n);
+        if (n < 0)
+            break;
 
-    int hours   =  total / 3600;
-    int minutes = (total % 3600) / 60;
-    int seconds =  total % 60;
-
-    printf("%02i:%02i:%02i\\n", hours, minutes, seconds);
-    return 0;
-}`,
-  why:"Marks: #include and main (1), scanf with %i and & (1), correct hours/minutes/seconds arithmetic (3), %02i formatting (1). The minutes line is where most people slip — you must take the remainder modulo 3600 BEFORE dividing by 60."},
- {type:"write", L:12, q:"Write code that declares an int array of size 10, fills it with the squares 1, 4, 9, ..., 100 using a loop, and then prints the largest value and its index.",
-  sol:`#include <stdio.h>
-
-int main(void) {
-    setvbuf(stdout, NULL, _IONBF, 0);
-
-    int a[10];
-    int i;
-
-    for (i = 0; i < 10; i++)
-        a[i] = (i + 1) * (i + 1);
-
-    int max = a[0];
-    int maxIdx = 0;
-
-    for (i = 0; i < 10; i++) {
-        if (a[i] > max) {
-            max = a[i];
-            maxIdx = i;
+        int count = 0;
+        if (n == 0) {
+            count = 1;
+        } else {
+            int m = n;
+            while (m > 0) {
+                m = m / 10;
+                count++;
+            }
         }
+        printf("%i\\n", count);
     }
-
-    printf("Largest: %i at index %i\\n", max, maxIdx);
     return 0;
 }`,
-  why:"Marks: declaration (1), fill loop with (i+1) squared (2), max initialised from a[0] not 0 (1), index updated inside the same if (1), output (1). Using i < 10 rather than i <= 10 is worth a mark on its own."}
+  why:"This one question is 40% of the grade. It is a read-until-sentinel loop (while(1) + break on a negative) wrapping an inner digit-count loop (divide by 10 until 0). Handle n == 0 separately or it prints 0 digits. Practise whole programs like this above all else."}
 ]},
-
-{id:"m1b", title:"Mock Midterm 1 — Paper B", mins:60, qs:[
- {type:"mcq", L:2, q:"The three stages of program creation and execution are:",
-  choices:["Write, Run, Debug","Write, Build (compile and link), Run","Compile, Link, Debug","Design, Write, Compile"], correct:1,
-  why:"Straight from Lesson 2. Note that build means compile AND link — linking is what combines multiple files and libraries into one executable."},
- {type:"mcq", L:4, q:"Which pair of format specifiers is correct for reading a double and printing it?",
-  choices:["scanf %f, printf %lf","scanf %lf, printf %f","scanf %d, printf %f","scanf %lf, printf %lf"], correct:1,
-  why:"Input needs %lf for a double; output takes %f for both floats and doubles. The asymmetry is deliberate and it is examined constantly."},
- {type:"out", L:5, q:"What is printed?", code:`int x = 10;
-x = x++ + 2;
-printf("%i", x);`, ans:"12",
-  why:"x++ yields the current value 10 and then increments; the assignment writes 10 + 2 = 12 over the top of it. The increment is lost. (Expressions that modify a variable twice are genuinely murky in C — which is exactly why you should never write them.)"},
- {type:"out", L:5, q:"What is printed?", code:`printf("%i", 100 % 7 * 2);`, ans:"4",
-  why:"% and * have equal precedence and evaluate left to right: (100 % 7) = 2, then 2 * 2 = 4. Not 100 % 14."},
- {type:"out", L:6, q:"What does this print?", code:`int i, j;
-for (i = 3; i >= 1; i--) {
-    for (j = 0; j < i; j++)
-        printf("*");
-    printf("\\n");
-}`, ans:"***\n**\n*",
-  why:"Row i prints i stars, with i counting down 3, 2, 1. The newline sits between the two closing braces, so one line per outer iteration."},
- {type:"out", L:7, q:"What is printed?", code:`int n = 1, count = 0;
-while (n < 100) {
-    n = n * 3;
-    count++;
+{id:"mockC", title:"Mock Midterm — Set C (real format)", mins:60,
+ note:"A second real-format paper — same shape and difficulty as the genuine exam, different numbers and scenarios. Trace-heavy, with one 40% program-writing question.", qs:[
+ {type:"out", L:6, q:"How many iterations are performed by the following for loop?",
+  code:`for (int i = 100; i >= 4; i = i - 8) {
+    printf("%i\\n", i);
+}`, ans:"13",
+  why:"i goes 100, 92, 84, … down by 8 while staying >= 4. The last value is 4 (the next, -4, fails). Count = (100 - 4)/8 + 1 = 13."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 17;
+double b = 2.0;
+printf("%.2f", a / 5 * b);`, ans:"6.00",
+  why:"Left to right: a / 5 is int / int = 3 (integer division), then 3 * 2.0 = 6.0. The double only enters after the integer division already truncated. %.2f prints 6.00."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int x = 100;
+printf("%i", x / 7 + x % 7);`, ans:"16",
+  why:"100 / 7 = 14 (whole sevens) and 100 % 7 = 2 (remainder). 14 + 2 = 16."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int a = 10;
+int b = a-- + 3;
+printf("%i %i", a, b);`, ans:"9 13",
+  why:"a-- is post-decrement: it uses the OLD value 10 first (so b = 10 + 3 = 13), THEN a becomes 9. Result: 9 and 13."},
+ {type:"out", L:6, q:"What is the console output of the following fragment?",
+  code:`for (int i = 3; i >= 1; i--)
+    for (int j = 0; j < i; j++)
+        printf("%i", j);`, ans:"012010",
+  why:"Inner loop prints 0..i-1: i=3 → \"012\", i=2 → \"01\", i=1 → \"0\". Concatenated: 012010."},
+ {type:"out", L:7, q:"What is the console output of the following fragment?",
+  code:`int n = 20, steps = 0;
+while (n > 1) {
+    if (n % 2 == 0) n = n / 2;
+    else           n = n * 3 + 1;
+    steps++;
 }
-printf("%i %i", n, count);`, ans:"243 5",
-  why:"n goes 3, 9, 27, 81, 243 — five iterations. The loop exits only after n passes 100, so the final value is 243, not 81."},
- {type:"out", L:9, q:"What is printed?", code:`int temp = 15;
-if (temp > 30)      printf("hot");
-else if (temp > 20) printf("warm");
-else if (temp > 10) printf("mild");
-else                printf("cold");`, ans:"mild",
-  why:"The chain stops at the first true test. 15 is not > 30 or > 20, but it is > 10."},
- {type:"out", L:13, q:"What is printed?", code:`int m[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
-int i, sum = 0;
-for (i = 0; i < 3; i++)
-    sum += m[i][i];
-printf("%i", sum);`, ans:"15",
-  why:"Using the same variable for both indices walks the main diagonal: 1 + 5 + 9 = 15. A useful pattern to recognise on sight."},
- {type:"mcq", L:11, q:"Which sequence is the correct minimum for writing to a file?",
-  choices:["fopen, fprintf, fclose","fopen, check NULL, fprintf, fclose","fprintf, fopen, fclose","fopen, fscanf, fclose"], correct:1,
-  why:"The NULL check is not optional — it is expected in every file-I/O answer. Open, verify, write, close."},
- {type:"out", L:10, q:"The user types   42abc   at this scanf. What is printed?", code:`int n;
-scanf("%i", &n);
-printf("%i", n);`, ans:"42",
-  why:"scanf with %i consumes digits until it hits something that cannot be part of an integer. It takes 42 and leaves \"abc\" sitting in the buffer, where it will wreck the next read."},
- {type:"write", L:9, q:"Write a complete program that reads an integer n from the user and prints every integer between 2 and n-1 that divides n evenly.",
-  sol:`#include <stdio.h>
+printf("%i", steps);`, ans:"7",
+  why:"20 → 10 → 5 → 16 → 8 → 4 → 2 → 1, counting each step: that is 7 steps. Trace n carefully; each pass either halves (even) or does 3n+1 (odd)."},
+ {type:"write", L:8, q:"Match each do-while loop to its behaviour:\nA:  int i=2; do { printf(\"%i\",i); i--; } while (i>0);\nB:  int i=0; do { printf(\"%i\",i); i--; } while (i>0);\nC:  int i=3; do { break; printf(\"%i\",i); } while (i>0);\nD:  int i=1; do { printf(\"%i\",i); } while (i==1);\n\nChoices: entered exactly once with output · infinite loop · entered but no output · entered a finite number of times > 1.",
+  sol:`A -> entered a finite number of times greater than one
+     prints 2, 1 then i becomes 0, condition false.
+
+B -> entered exactly once, produces output
+     prints 0, i becomes -1, -1 > 0 is false -> one pass only.
+
+C -> entered but produces no output
+     break fires immediately, before the printf.
+
+D -> infinite loop
+     i stays 1, so i == 1 is always true.`,
+  why:"break in C leaves the loop before printing. D never changes i, so the condition is permanently true. B shows the do-while running once despite the test failing."},
+ {type:"out", L:10, q:"The user types  CS 151!  then a newline. What does this print?",
+  code:`char c;
+int s = 0;
+
+do {
+    c = getchar();
+    if (c >= 'A' && c <= 'Z') {
+        s += 2;
+    } else if (c >= '0' && c <= '9') {
+        s += c - '0';
+    } else {
+        s--;
+    }
+} while (c != '\\n');
+
+printf("%i", s);`, ans:"8",
+  why:"Per character: uppercase +2, digit adds its value, anything else -1. C:+2, S:+2, space:-1, '1':+1, '5':+5, '1':+1, '!':-1, newline:-1 → 2+2-1+1+5+1-1-1 = 8."},
+ {type:"write", L:12, q:"Select ALL true statements about arrays in C:\n1) array indices start at 0\n2) for int a[5], the valid indices are 0 through 5\n3) the array name by itself refers to an address in memory\n4) a C array knows its own length",
+  sol:`TRUE: 1 and 3.
+
+1 — the first element is a[0].
+3 — the array name acts as the address of its first element (that is why scanf on an array needs no &).
+
+FALSE:
+2 — int a[5] has indices 0..4; a[5] is out of bounds.
+4 — a plain C array does not store its length; you must track the size yourself.`,
+  why:"The off-by-one in option 2 (thinking a[5] is valid for int a[5]) is the single most common array mistake. Indices run 0 .. size-1."},
+ {type:"out", L:5, q:"What is the console output of the following fragment?",
+  code:`int p = 6, q = 4;
+printf("%i", p / q + p % q + q / p);`, ans:"3",
+  why:"6 / 4 = 1, 6 % 4 = 2, 4 / 6 = 0 (integer division of a smaller by a larger is 0). 1 + 2 + 0 = 3."},
+ {type:"out", L:6, q:"What is the console output of the following fragment?",
+  code:`int i, found = 0;
+for (i = 2; i <= 20; i++) {
+    if (i * i > 50) {
+        found = i;
+        break;
+    }
+}
+printf("%i", found);`, ans:"8",
+  why:"The loop stops at the first i whose square exceeds 50: 7*7 = 49 (not > 50), 8*8 = 64 (> 50). break sets found = 8 and exits."},
+ {type:"write", L:9, q:"THE BIG ONE — worth 40% of the exam. Write a C program that reads integers, one per line, and keeps reading until a number less than 2 is read (which ends the program with no further output). For every number N that is 2 or greater, print YES if N is prime and NO if it is not.",
+  code:`Example (input -> output):
+7   -> YES
+9   -> NO
+13  -> YES
+1   -> nothing, program ends`, sol:`#include <stdio.h>
 
 int main(void) {
     setvbuf(stdout, NULL, _IONBF, 0);
 
-    int n, i;
+    int n;
+    while (1) {
+        scanf("%i", &n);
+        if (n < 2)
+            break;
 
-    printf("Enter n: ");
-    scanf("%i", &n);
+        int isPrime = 1;
+        for (int d = 2; d < n; d++) {
+            if (n % d == 0) {
+                isPrime = 0;
+                break;
+            }
+        }
 
-    for (i = 2; i <= n - 1; i++) {
-        if (n % i == 0)
-            printf("%i ", i);
+        if (isPrime) printf("YES\\n");
+        else         printf("NO\\n");
     }
-    printf("\\n");
-
     return 0;
 }`,
-  why:"Marks: input with & (1), loop bounds starting at 2 and stopping at n-1 (2), the n % i == 0 test (2), output (1). Starting at 1 or including n itself loses marks."},
- {type:"write", L:13, q:"Write code that creates a 4 x 4 matrix where element [i][j] holds i+j, then prints it as a neat grid with each number in a field 4 wide.",
-  sol:`#include <stdio.h>
-
-int main(void) {
-    setvbuf(stdout, NULL, _IONBF, 0);
-
-    int a[4][4];
-    int i, j;
-
-    for (i = 0; i < 4; i++)
-        for (j = 0; j < 4; j++)
-            a[i][j] = i + j;
-
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++)
-            printf("%4i", a[i][j]);
-        printf("\\n");
-    }
-
-    return 0;
-}`,
-  why:"Marks: 2-D declaration (1), nested fill loops (2), nested print loops (2), the newline placed between the closing braces, not inside the inner loop (1). That last one is the single most commonly lost mark on array questions."}
+  why:"40% of the grade in one question. A read-until-sentinel outer loop (stop when n < 2) wrapping a primality test: a flag plus an inner divisor loop that breaks the moment it finds a factor. Exact output matters — YES/NO, one per line."}
 ]}
 ];
 
@@ -3022,7 +3085,194 @@ int main(void) {
 
     return 0;
 }`,
-  note:"Comparing m[i][j] with m[j][i] across all pairs is the symmetry check — a flag that only ever flips to 0. Fill, print, then test: three separate loop nests, each doing one job."}
+  note:"Comparing m[i][j] with m[j][i] across all pairs is the symmetry check — a flag that only ever flips to 0. Fill, print, then test: three separate loop nests, each doing one job."},
+
+ /* --- relatable, real-world lab-level scenarios (in the spirit of the actual labs) --- */
+ {L:5, q:"Splitting the bill. Read a restaurant bill (a double), a tip as a whole-number percent, and the number of people. Print how much each person pays, rounded to exactly 2 decimal places, without any rounding library function.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    double bill;
+    int tipPct, people;
+
+    printf("Bill: ");
+    scanf("%lf", &bill);
+    printf("Tip (%%): ");
+    scanf("%i", &tipPct);
+    printf("People: ");
+    scanf("%i", &people);
+
+    double total = bill * (1.0 + tipPct / 100.0);
+    double each  = total / people;
+
+    int cents = (int)(each * 100 + 0.5);   /* manual round */
+    printf("Each pays: %.2f\\n", cents / 100.0);
+
+    return 0;
+}`,
+  note:"Same manual-rounding trick the haircut-tip lab wanted: ×100, +0.5, cast to int, ÷100. Use tipPct/100.0 so the percentage isn't wiped out by integer division, and %% to print a literal percent sign in the prompt."},
+
+ {L:12, q:"Step tracker. Read your step count for each of 7 days into an array, then print the weekly total, the average per day (1 decimal place), and how many days you hit the 10,000-step goal.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int steps[7];
+    int i, total = 0, goalDays = 0;
+
+    for (i = 0; i < 7; i++) {
+        scanf("%i", &steps[i]);
+        total += steps[i];
+        if (steps[i] >= 10000)
+            goalDays++;
+    }
+
+    printf("Total: %i\\n", total);
+    printf("Average: %.1f\\n", total / 7.0);
+    printf("Goal days: %i\\n", goalDays);
+
+    return 0;
+}`,
+  note:"One pass does everything: accumulate the total and count goal days as you read. Divide by 7.0 (not 7) so the average keeps its decimals."},
+
+ {L:8, q:"ATM machine. Starting from a balance of 12000 tenge, repeatedly ask for a withdrawal amount (0 to stop). Reject anything that is negative, not a multiple of 500, or more than the balance — printing why — otherwise subtract it and show the new balance. When they enter 0, print the final balance.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int balance = 12000;
+    int amount;
+
+    do {
+        printf("Withdraw (0 to stop): ");
+        scanf("%i", &amount);
+
+        if (amount == 0) {
+            /* stop */
+        } else if (amount < 0) {
+            printf("Amount must be positive\\n");
+        } else if (amount % 500 != 0) {
+            printf("Must be a multiple of 500\\n");
+        } else if (amount > balance) {
+            printf("Insufficient funds\\n");
+        } else {
+            balance -= amount;
+            printf("Balance: %i\\n", balance);
+        }
+    } while (amount != 0);
+
+    printf("Final balance: %i\\n", balance);
+    return 0;
+}`,
+  note:"do-while, because the menu must run at least once. The else-if chain checks the failure cases first and only withdraws in the final else. This layered validation is exactly the lab style."},
+
+ {L:5, q:"Cash into notes. Read an amount of tenge that is a multiple of 100, and print how many 5000, 1000, 500 and 100 notes make it up, using the fewest notes (largest first).",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int amount;
+    printf("Amount: ");
+    scanf("%i", &amount);
+
+    int n5000 = amount / 5000; amount %= 5000;
+    int n1000 = amount / 1000; amount %= 1000;
+    int n500  = amount / 500;  amount %= 500;
+    int n100  = amount / 100;
+
+    printf("5000 x %i\\n", n5000);
+    printf("1000 x %i\\n", n1000);
+    printf("500 x %i\\n", n500);
+    printf("100 x %i\\n", n100);
+
+    return 0;
+}`,
+  note:"The divide-then-mod pair is the whole idea: how many of this note fits (/), then what's left over (%). Go largest denomination to smallest for the fewest notes."},
+
+ {L:6, q:"Coffee loyalty card. Every 6th coffee is free. Read how many coffees a customer bought and the price of one coffee (a whole number), and print how many they paid for and the total cost.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int count, price;
+    printf("Coffees: ");
+    scanf("%i", &count);
+    printf("Price: ");
+    scanf("%i", &price);
+
+    int free = count / 6;         /* one free per full group of 6 */
+    int paid = count - free;
+
+    printf("Paid for: %i\\n", paid);
+    printf("Total: %i\\n", paid * price);
+
+    return 0;
+}`,
+  note:"count / 6 counts the completed groups of six, each giving one free coffee. No loop needed — integer division does the counting for you."},
+
+ {L:12, q:"Weather week. Read the temperature for 7 days into an array, then print the hottest day (its day number 1–7 and value), the coldest day, and the average temperature to 1 decimal place.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int t[7];
+    int i, sum = 0;
+
+    for (i = 0; i < 7; i++) {
+        scanf("%i", &t[i]);
+        sum += t[i];
+    }
+
+    int hot = 0, cold = 0;
+    for (i = 1; i < 7; i++) {
+        if (t[i] > t[hot])  hot = i;
+        if (t[i] < t[cold]) cold = i;
+    }
+
+    printf("Hottest: day %i (%i)\\n", hot + 1, t[hot]);
+    printf("Coldest: day %i (%i)\\n", cold + 1, t[cold]);
+    printf("Average: %.1f\\n", sum / 7.0);
+
+    return 0;
+}`,
+  note:"Track the INDEX of the hottest/coldest day, not just the value, so you can report which day it was. Print day + 1 because the array is 0-based but people count days from 1."},
+
+ {L:13, q:"Cinema seating. A cinema has a 3x3 seat grid, all free at first. Read booked seats as row col pairs (0-based) until a row of -1, marking each as taken. Then print the grid using X for taken and . for free, and finally how many seats are still free.",
+  sol:`#include <stdio.h>
+
+int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    int seats[3][3] = {0};   /* 0 = free, 1 = taken */
+    int r, c, i, j;
+
+    while (1) {
+        scanf("%i", &r);
+        if (r < 0) break;
+        scanf("%i", &c);
+        seats[r][c] = 1;
+    }
+
+    int free = 0;
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            if (seats[i][j] == 1) printf("X ");
+            else { printf(". "); free++; }
+        }
+        printf("\\n");
+    }
+
+    printf("Free: %i\\n", free);
+    return 0;
+}`,
+  note:"A 2-D array as a map, with a sentinel loop (-1 stops input) to read the bookings. Count the free seats in the same nested loop that prints the grid. This mirrors the lab's treasure-hunt-style grid, scaled to exam size."}
 ];
 
 let writeFilter = 'all';
